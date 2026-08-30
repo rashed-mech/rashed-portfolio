@@ -1,0 +1,133 @@
+const fs = require('fs');
+const file = 'src/components/HonorsAndActivitiesSection.tsx';
+let c = fs.readFileSync(file, 'utf8');
+
+const regex = /\{\/\* 2-Column Layout for Achievements and Affiliations\/Volunteering \*\/\}[\s\S]*?(?=\s*<\/div>\s*<\/section>)/;
+
+const replacement = `{/* Dynamic Layout for Achievements and Affiliations/Volunteering */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Achievements */}
+          {achievements.length > 0 && (
+            <div className={\`space-y-6 \${(affiliations.length > 0 || volunteerWork.length > 0) ? 'lg:col-span-6' : 'lg:col-span-12'}\`}>
+              <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
+                <Trophy className="w-4 h-4 text-indigo-600" />
+                <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                  ACHIEVEMENTS & AWARDS
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {achievements.map((ach) => (
+                  <div
+                    key={ach.id}
+                    className="p-5 rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex flex-col justify-between space-y-2 group shadow-sm shadow-slate-200/50"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          {ach.year}
+                        </span>
+                        {ach.category && (
+                          <span className="text-[10px] font-mono text-gray-700">
+                            {ach.category}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="text-sm font-bold text-black group-hover:text-indigo-600 transition-colors leading-snug">
+                        {ach.title}
+                      </h4>
+                      {ach.organization && (
+                        <div className="text-xs font-mono text-gray-800">
+                          {ach.organization}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Right Column: Affiliations & Volunteer Work */}
+          {(affiliations.length > 0 || volunteerWork.length > 0) && (
+            <div className={\`space-y-8 \${achievements.length > 0 ? 'lg:col-span-6' : 'lg:col-span-12'}\`}>
+              
+              {/* Professional Affiliations */}
+              {affiliations.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
+                    <Users className="w-4 h-4 text-indigo-600" />
+                    <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                      PROFESSIONAL AFFILIATIONS & ACTIVITIES
+                    </h3>
+                  </div>
+                  <div className={\`grid grid-cols-1 gap-3 \${achievements.length > 0 ? '' : 'md:grid-cols-2'}\`}>
+                    {affiliations.map((aff) => (
+                      <div
+                        key={aff.id}
+                        className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex items-center justify-between group shadow-sm shadow-slate-200/50 h-full"
+                      >
+                        <div className="space-y-0.5">
+                          <h4 className="text-sm font-bold text-black group-hover:text-indigo-600 transition-colors">
+                            {aff.organization}
+                          </h4>
+                          <div className="text-xs font-mono text-gray-800">
+                            Role: <span className="text-indigo-600 font-medium">{aff.role}</span>
+                          </div>
+                        </div>
+                        <span className="px-2.5 py-1 rounded bg-white/60 backdrop-blur-md border border-slate-200 text-[11px] font-mono text-gray-900 shrink-0 ml-2">
+                          {aff.period}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Volunteer Experiences */}
+              {volunteerWork.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
+                    <HeartHandshake className="w-4 h-4 text-indigo-600" />
+                    <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                      VOLUNTEER EXPERIENCES
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {volunteerWork.map((vol) => (
+                      <div
+                        key={vol.id}
+                        className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all space-y-1.5 group shadow-sm shadow-slate-200/50"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-bold text-black group-hover:text-indigo-600 transition-colors">
+                            {vol.title || vol.role}
+                          </h4>
+                          {vol.period && (
+                            <span className="text-[11px] font-mono text-gray-700 ml-2 shrink-0">
+                              {vol.period}
+                            </span>
+                          )}
+                        </div>
+                        {(vol.organization || (!vol.title && vol.role)) && (
+                          <div className="text-xs font-mono text-gray-800">
+                            {vol.organization}
+                          </div>
+                        )}
+                        {vol.description && (
+                          <p className="text-xs text-gray-700 font-light pt-1">
+                            {vol.description}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>`;
+
+c = c.replace(regex, replacement);
+fs.writeFileSync(file, c);
+console.log("Replaced successfully!");
