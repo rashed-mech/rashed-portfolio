@@ -224,7 +224,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                 className="inline-flex items-center space-x-2 px-5 py-3 rounded-lg bg-slate-900 hover:bg-indigo-600 text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-md shadow-indigo-600/10 hover:scale-[1.02]"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>View Publications</span>
+                <span>View Publicationsiuihiuhi</span>
                 <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
               </a>
 

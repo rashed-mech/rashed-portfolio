@@ -24,12 +24,19 @@ if (!connectionString) {
   console.error('DATABASE_URL is not set. Database operations will fail until it is configured.');
 }
 
-const pool = new Pool({
-  connectionString,
-  // Neon's connection string already sets sslmode=require; this keeps `pg` happy
-  // with Neon's certificate chain without needing extra CA config.
-  ssl: connectionString ? { rejectUnauthorized: false } : undefined
-});
+let pool: any;
+if (connectionString) {
+  pool = new Pool({
+    connectionString,
+    ssl: { rejectUnauthorized: false }
+  });
+} else {
+  console.warn('[AI Studio] DB not connected — mock active');
+  pool = { 
+    query: async () => ({ rows: [] }), 
+    connect: async () => ({ query: async () => ({ rows: [] }), release: () => {} }) 
+  };
+}
 
 const ROW_ID = 1;
 
