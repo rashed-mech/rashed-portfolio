@@ -140,48 +140,63 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
         {/* Top Section: Avatar and Bio */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start mb-16">
           
-          {/* Left: Profile Image */}
+          {/* Left: Profile Image and Action Buttons */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="shrink-0 flex justify-center lg:justify-start"
+            className="shrink-0 flex flex-col items-center justify-start max-w-[280px] mx-auto lg:mx-0"
           >
-            <div className="relative">
+            <div className="relative mb-6">
               <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-500 to-emerald-400 rounded-full blur-sm opacity-50"></div>
               {profile.avatarUrl ? (
                 <img 
                   src={formatImageUrl(profile.avatarUrl)} 
                   alt={profile.name} 
-                  className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-full object-cover border-4 border-white shadow-xl bg-slate-100" 
+                  className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-white shadow-xl bg-slate-100" 
                 />
               ) : (
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-full border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center text-4xl text-indigo-300 font-serif font-bold">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center text-4xl text-indigo-300 font-serif font-bold">
                   {profile.name.split(' ').map(n => n[0]).join('')}
                 </div>
               )}
+            </div>
+
+            {/* Title / Designation */}
+            <div className="text-center mb-6 px-4">
+              <span className="text-black text-lg font-serif font-semibold leading-snug">
+                {profile.title}
+              </span>
+            </div>
+
+            {/* Left Column Action Buttons */}
+            <div className="flex flex-col w-full gap-3 px-2">
+              <a
+                href="#publications"
+                className="w-full text-center px-4 py-2.5 bg-[#0a192f] hover:bg-slate-800 text-white text-sm font-sans font-bold shadow-md transition-colors"
+              >
+                View Publications
+              </a>
+              
+              <button
+                onClick={() => downloadCV(data)}
+                className="w-full text-center px-4 py-2.5 bg-[#0a192f] hover:bg-slate-800 text-white text-sm font-sans font-bold shadow-md transition-colors"
+              >
+                Download CV
+              </button>
+
+              <button
+                onClick={() => downloadCV(data)}
+                className="w-full text-center px-4 py-2.5 bg-[#1a3b2b] hover:bg-green-900 text-white text-sm font-sans font-bold shadow-md transition-colors"
+              >
+                Research Resume
+              </button>
             </div>
           </motion.div>
 
           {/* Right: Bio & Intro */}
           <div className="flex-1 space-y-6 sm:space-y-8 text-center lg:text-left">
             
-            {/* Eyebrow / Designation (Appears after typing) */}
-            <motion.div 
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.4, 
-                delay: profile.name.length * 0.08 + 0.1 
-              }}
-              className="inline-flex items-center space-x-3"
-            >
-              <span className="w-8 h-px bg-gray-400"></span>
-              <span className="text-gray-500 text-xs sm:text-sm font-medium tracking-[0.2em] uppercase">
-                {profile.title}
-              </span>
-            </motion.div>
-
             {/* Main Name Heading */}
             <div className="min-h-[3rem] sm:min-h-[4.5rem] lg:min-h-[5.5rem] flex items-center justify-center lg:justify-start mt-2">
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-black leading-tight font-sans flex items-center">
@@ -194,99 +209,52 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
               </h1>
             </div>
             
-            {/* Elegant Divider */}
-            <motion.div 
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.5, delay: profile.name.length * 0.08 + 0.2, ease: "easeOut" }}
-              className="mt-6 w-16 mx-auto lg:mx-0 h-[2px] bg-indigo-600 origin-left"
-            />
-
             {/* Subtitle / Focus Statement */}
-            <motion.p 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: profile.name.length * 0.08 + 0.3 }}
-              className="text-base sm:text-lg text-gray-800 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0"
-            >
-              {profile.headline || profile.bio}
-            </motion.p>
-
-            {/* Action Buttons */}
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: profile.name.length * 0.08 + 0.4 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2"
+              transition={{ duration: 0.5, delay: 1.2 }}
+              className="mt-6 space-y-4 text-sm sm:text-base text-gray-800 leading-relaxed font-light max-w-3xl mx-auto lg:mx-0 text-left"
             >
-              <a
-                href="#publications"
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-lg bg-slate-900 hover:bg-indigo-600 text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-md shadow-indigo-600/10 hover:scale-[1.02]"
-              >
-                <BookOpen className="w-4 h-4" />
-                <span>View Publicationsiuihiuhi</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
-              </a>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-lg bg-white hover:bg-slate-50 text-gray-900 hover:text-black border border-slate-200 hover:border-indigo-200 text-xs font-mono font-medium tracking-wider uppercase transition-all"
-              >
-                <Mail className="w-4 h-4 text-indigo-600" />
-                <span>Get in Touch</span>
-              </a>
-
-              {profile.social?.linkedin && (
-                <a
-                  href={profile.social.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center space-x-2 px-5 py-3 rounded-lg bg-white hover:bg-slate-50 text-gray-900 hover:text-black border border-slate-200 hover:border-indigo-200 text-xs font-mono font-medium tracking-wider uppercase transition-all"
-                >
-                  <Zap className="w-4 h-4 text-indigo-600" />
-                  <span>LinkedIn Profile</span>
-                </a>
-              )}
-              
-              <button
-                onClick={() => downloadCV(data)}
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 hover:border-indigo-300 text-xs font-mono font-bold tracking-wider uppercase transition-all"
-              >
-                <Download className="w-4 h-4 text-indigo-600" />
-                <span>Download CV</span>
-              </button>
-            </motion.div>
-
-            {/* Metadata Footer Subline */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: profile.name.length * 0.08 + 0.5 }}
-              className="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-center lg:justify-start text-xs font-mono text-gray-700 gap-y-2 gap-x-2.5"
-            >
-              <span className="text-gray-800">{profile.location}</span>
-              <span className="text-indigo-300 hidden sm:inline">·</span>
-              <span className="text-gray-800">{profile.department || profile.affiliation}</span>
-              <span className="text-indigo-300 hidden sm:inline">·</span>
-              <a 
-                href={`mailto:${profile.email}`} 
-                className="text-indigo-600 hover:underline"
-              >
-                {profile.email}
-              </a>
-              {profile.phone && (
-                <>
-                  <span className="text-indigo-300 hidden sm:inline">·</span>
-                  <span className="text-gray-800">{profile.phone}</span>
-                </>
-              )}
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 sm:w-16 h-[2px] bg-indigo-600"></div>
+                <h3 className="text-base sm:text-lg font-semibold tracking-tight text-black font-sans">
+                  Welcome to my personal webpage.
+                </h3>
+              </div>
+              <p>
+                {profile.aboutText?.[0] || profile.bio}
+              </p>
+              <p>
+                {profile.aboutText?.[1] || "Experienced in electrical system assessment, solar PV integration, generator performance monitoring, and energy efficiency optimization. Proven ability to design, validate, and document energy systems for off-grid and resource-constrained environments."}
+              </p>
+              <p>
+                {profile.aboutText?.[2] || "Published researcher with hands-on fieldwork in remote energy infrastructure in coastal Bangladesh. Seeking to apply technical energy expertise in support of MSF humanitarian operations in Bangladesh."}
+              </p>
             </motion.div>
 
           </div>
         </div>
 
+        {/* Overview Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.5 }}
+          className="w-full text-center lg:text-left mb-6"
+        >
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-black font-sans">
+            Mechanical Engineering, Renewable Energy Systems & Field Analysis
+          </h2>
+        </motion.div>
+
         {/* Bottom Section: Connected Hybrid Renewable Energy Grid Topology (Horizontal Tab) */}
-        <div className="w-full">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.7 }}
+          className="w-full"
+        >
           <div className="relative rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200 p-4 sm:p-5 shadow-xl shadow-slate-200/50">
             
             {/* Header of Diagram */}
@@ -483,7 +451,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
             )}
 
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
