@@ -31,6 +31,14 @@ export interface Profile {
   };
 }
 
+export interface KeyFinding {
+  label: string;
+  value: string;
+  unit: string;
+  context: string;
+  visual_type: 'gauge' | 'bar' | 'line' | 'stat_card' | 'comparison';
+}
+
 export interface Publication {
   id: string;
   title: string;
@@ -47,6 +55,9 @@ export interface Publication {
   featured?: boolean;
   tags: string[];
   statusNote?: string;
+  purpose?: string;
+  key_findings?: KeyFinding[];
+  methods_used?: string[];
 }
 
 export interface Project {

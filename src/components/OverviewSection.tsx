@@ -62,7 +62,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => 
   ];
 
   return (
-    <section className="py-12 sm:py-16 border-t border-slate-200" id="overview">
+    <section className="pt-4 sm:pt-8 pb-12 sm:pb-16" id="overview">
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -73,39 +73,33 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => 
         
         {/* Narrative & Impact Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-12">
-          
-          {/* Impact Metrics Display (fetched live from Google Scholar on every page load) */}
-          {(displayCitations > 0 || displayHIndex > 0) && (
-            <div className="lg:col-span-4 p-4 rounded-xl bg-indigo-50/80 border border-indigo-100 hover:border-indigo-300 transition-all group flex items-center justify-between shadow-sm">
-              <div>
-                <div className="text-[10px] font-mono text-indigo-700 uppercase font-semibold tracking-wider mb-2">Impact Metrics Display (Google Scholar)</div>
-                <div className="flex items-center space-x-8">
-                  <div>
-                    <div className="text-2xl sm:text-3xl font-mono font-bold text-indigo-600">{displayCitations}</div>
-                    <div className="text-[11px] font-medium text-gray-900 mt-1">Total Citations</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl sm:text-3xl font-mono font-bold text-indigo-600">{displayHIndex}</div>
-                    <div className="text-[11px] font-medium text-gray-900 mt-1">h-index</div>
-                  </div>
-                </div>
-              </div>
-              <BookOpen className="w-10 h-10 text-indigo-200 hidden sm:block" />
-            </div>
-          )}
-
           {metrics.map((m, idx) => (
             <div 
               key={idx} 
-              className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all group shadow-sm shadow-slate-200/50"
+              className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all group shadow-sm shadow-slate-200/50 flex flex-col justify-between"
             >
-              <div className="text-xl sm:text-2xl font-mono font-bold text-indigo-600 group-hover:scale-105 transition-transform">
-                {m.value}
+              <div>
+                <div className="flex items-start justify-between">
+                  <div className="text-xl sm:text-2xl font-mono font-bold text-indigo-600 group-hover:scale-105 transition-transform origin-left">
+                    {m.value}
+                  </div>
+                  {idx === 0 && (displayCitations > 0 || displayHIndex > 0) && (
+                    <div className="flex flex-col items-end text-right">
+                      <div className="inline-flex items-center gap-1.5 bg-indigo-600 text-white px-2.5 py-1 rounded-lg shadow-sm group-hover:bg-indigo-500 transition-colors">
+                        <span className="text-sm font-bold font-sans">{displayCitations}</span>
+                        <span className="text-[9px] uppercase tracking-widest font-semibold opacity-90">Citations</span>
+                      </div>
+                      <span className="text-[10px] font-mono font-medium text-slate-500 mt-1.5">
+                        h-index: <span className="font-bold text-indigo-600">{displayHIndex}</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs font-medium text-gray-900 mt-1">
+                  {m.label}
+                </div>
               </div>
-              <div className="text-xs font-medium text-gray-900 mt-1">
-                {m.label}
-              </div>
-              <div className="text-[10px] font-mono text-gray-700 mt-0.5">
+              <div className="text-[10px] font-mono text-gray-700 mt-3">
                 {m.sub}
               </div>
             </div>

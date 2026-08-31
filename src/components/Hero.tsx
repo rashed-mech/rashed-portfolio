@@ -11,7 +11,11 @@ import {
   BookOpen, 
   ArrowRight,
   Zap,
-  Activity
+  Activity,
+  Droplet,
+  Cloud,
+  Cpu,
+  Leaf
 } from 'lucide-react';
 import { Profile, PortfolioData } from '../types';
 import { downloadCV } from '../utils/generateCV';
@@ -23,8 +27,7 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
-  const [activeNode, setActiveNode] = useState<'solar' | 'wind' | 'biogas' | 'battery' | 'load' | null>('battery');
-  
+  const [activeNode, setActiveNode] = useState<'wind' | 'biogas' | 'diesel' | 'battery' | 'electrolyzer' | 'loads' | null>('wind');
   const [displayedChars, setDisplayedChars] = useState<number>(0);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
@@ -86,51 +89,53 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
     }
   }, [profile.name]);
 
-  const nodeTelemetry = {
-    solar: {
-      name: 'Photovoltaic Array (PV)',
-      status: 'Generating (Peak Irradiance)',
-      output: '4.85 kWp',
-      voltage: '48.2 V DC (MPPT Tracked)',
-      efficiency: '19.4% Module Efficiency',
-      detail: 'Monocrystalline bifacial array with dust-soiling mitigation coating for coastal saline atmospheres.'
-    },
+  const nodeTelemetry: Record<string, any> = {
     wind: {
-      name: 'Coastal Small-Scale Wind Turbine',
-      status: 'Active (Coastal Sea Breeze)',
-      output: '2.40 kW',
-      speed: '6.8 m/s Mean Wind Velocity',
-      efficiency: 'Weibull Sizing Optimization',
-      detail: 'Direct-drive permanent magnet synchronous generator with passive pitch regulation.'
+      name: 'Wind Turbines (15 units)',
+      status: 'Primary Generation',
+      output: '20,801 MWh/yr',
+      efficiency: '80.2% of Total',
+      detail: '15 units of Vestas V47 (660 kW each) providing the bulk of renewable energy.'
     },
     biogas: {
-      name: 'Anaerobic Biogas Generator',
-      status: 'Standby / Base-Load Dispatch',
-      output: '1.50 kW',
-      methane: '62% CH4 Quality',
-      efficiency: 'Solar Preheated Digester',
-      detail: 'Mesophilic fixed-dome digester utilizing organic coastal biomass and cattle substrate.'
+      name: 'Biogas Generator (500 kW)',
+      status: 'Dispatchable Backup',
+      output: '1,841 MWh/yr',
+      efficiency: '7.1% of Total',
+      detail: 'Fueled by locally sourced livestock manure (5,535 tons/yr), replacing diesel.'
+    },
+    diesel: {
+      name: 'Diesel Generator (4.3 MW)',
+      status: 'Peak/Reserve Backup',
+      output: '3,304 MWh/yr',
+      efficiency: '12.7% of Total',
+      detail: 'Significantly reduced usage (893k L/yr) due to biogas and wind integration.'
     },
     battery: {
-      name: 'Battery Energy Storage System & EMS',
-      status: 'Optimal State-of-Charge (SOC)',
-      output: '86% SOC · 14.4 kWh LiFePO4',
-      voltage: '51.2 V Nominal',
-      efficiency: 'Thermal Degradation Protected',
-      detail: 'Microprocessor-controlled Energy Management System balancing generation dispatch with zero blackout.'
+      name: 'Battery Storage',
+      status: 'Energy Buffer',
+      output: '587 Units',
+      efficiency: '10.175 MWh',
+      detail: 'Lead-acid string batteries providing short-term buffering and grid stability.'
     },
-    load: {
-      name: 'Coastal Community AC Mini-Grid Load',
-      status: 'Supplied (100% Renewable Fraction)',
-      output: '5.20 kW Continuous Demand',
-      voltage: '230 V AC / 50 Hz Pure Sine',
-      efficiency: '0% Unmet Electrical Load',
-      detail: 'Delivering 24/7 electricity to residential households, marine ice refrigeration, and community clinics.'
+    electrolyzer: {
+      name: 'Electrolyzer (750 kW)',
+      status: 'Surplus Sink',
+      output: '23,540 kg H2/yr',
+      efficiency: '21.7% Capacity Factor',
+      detail: 'Converts excess renewable energy into green hydrogen for zero-emission transport.'
+    },
+    loads: {
+      name: 'Community & Deferrable Loads',
+      status: 'Demand Nodes',
+      output: '18,256 MWh/yr',
+      efficiency: '100% Demand Met',
+      detail: 'Powers 2,500 households, public facilities, and 1,500 EV autorickshaws.'
     }
   };
 
   return (
-    <section className="relative pt-6 sm:pt-12 pb-16 lg:pb-24 overflow-hidden" id="hero">
+    <section className="relative pt-6 sm:pt-12 pb-8 lg:pb-12 overflow-hidden" id="hero">
       {/* Background glow effects */}
       <div className="absolute top-1/4 -left-40 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -209,12 +214,12 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
               </h1>
             </div>
             
-            {/* Subtitle / Focus Statement */}
+            {/* Bio & Intro */}
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.2 }}
-              className="mt-6 space-y-4 text-sm sm:text-base text-gray-800 leading-relaxed font-light max-w-3xl mx-auto lg:mx-0 text-left"
+              className="mt-6 space-y-4 text-sm sm:text-base text-gray-900 leading-relaxed max-w-3xl mx-auto lg:mx-0 text-justify"
             >
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-12 sm:w-16 h-[2px] bg-indigo-600"></div>
@@ -248,7 +253,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
           </h2>
         </motion.div>
 
-        {/* Bottom Section: Connected Hybrid Renewable Energy Grid Topology (Horizontal Tab) */}
+        {/* Bottom Section: Connected Engine Simulation Topology */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -262,165 +267,156 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
               <div className="flex items-center space-x-2">
                 <Activity className="w-4 h-4 text-indigo-600 animate-pulse" />
                 <span className="text-xs font-mono tracking-wider text-black uppercase font-semibold">
-                  HYBRID MICROGRID TOPOLOGY
+                  ADVANCED HYBRID RENEWABLE ENERGY SYSTEM (AHRES)
                 </span>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
-                ONLINE · REAL-TIME
+                MODEL-1: WIND-BIOGAS-DIESEL-BATTERY
               </span>
             </div>
 
-            {/* Topology Horizontal Layout */}
-            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:gap-2">
+            {/* Topology Layout */}
+            <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:gap-2">
               
-              {/* Generation Nodes: Solar, Wind, Biogas (Horizontal) */}
-              <div className="flex-1 grid grid-cols-3 gap-2">
+              {/* AC Side: Wind, Biogas, Diesel */}
+              <div className="flex-1 flex flex-col gap-2">
+                <div className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest text-center mb-1">AC Bus</div>
                 
-                {/* Solar Node */}
-                <button
-                  onClick={() => setActiveNode('solar')}
-                  className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                    activeNode === 'solar'
-                      ? 'bg-amber-50 border-amber-500 shadow-md shadow-amber-500/10'
-                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-amber-400'
-                  }`}
-                >
-                  <div className="flex flex-col items-center justify-center gap-1.5">
-                    <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600">
-                      <Sun className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-900">SOLAR</div>
-                      <div className="text-[9px] sm:text-[10px] font-mono text-amber-600">4.85 kWp</div>
-                    </div>
-                  </div>
-                </button>
-
                 {/* Wind Node */}
                 <button
                   onClick={() => setActiveNode('wind')}
-                  className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
                     activeNode === 'wind'
                       ? 'bg-sky-50 border-sky-400 shadow-md shadow-sky-500/10'
                       : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-sky-400'
                   }`}
                 >
-                  <div className="flex flex-col items-center justify-center gap-1.5">
-                    <div className="w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center text-sky-600">
-                      <Wind className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-900">WIND</div>
-                      <div className="text-[9px] sm:text-[10px] font-mono text-sky-600">2.40 kW</div>
-                    </div>
+                  <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center text-sky-600 shrink-0">
+                    <Wind className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">WIND TURBINES</div>
+                    <div className="text-[10px] font-mono text-sky-600 whitespace-nowrap">9.9 MW Capacity</div>
                   </div>
                 </button>
 
                 {/* Biogas Node */}
                 <button
                   onClick={() => setActiveNode('biogas')}
-                  className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
                     activeNode === 'biogas'
-                      ? 'bg-emerald-50 border-emerald-500 shadow-md shadow-emerald-500/10'
-                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-emerald-500'
-                  }`}
-                >
-                  <div className="flex flex-col items-center justify-center gap-1.5">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
-                      <Flame className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-900">BIOGAS</div>
-                      <div className="text-[9px] sm:text-[10px] font-mono text-emerald-600">1.50 kW</div>
-                    </div>
-                  </div>
-                </button>
-
-              </div>
-
-              {/* Connector */}
-              <div className="hidden lg:flex items-center justify-center px-1">
-                <div className="w-4 h-0.5 bg-slate-200 relative">
-                  <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
-                </div>
-              </div>
-              <div className="lg:hidden flex items-center justify-center py-1">
-                <div className="h-4 w-0.5 bg-slate-200 relative">
-                  <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
-                </div>
-              </div>
-
-              {/* Central Battery & EMS Hub */}
-              <div className="flex-1">
-                <button
-                  onClick={() => setActiveNode('battery')}
-                  className={`w-full p-3 rounded-xl border transition-all text-left cursor-pointer h-full flex flex-col justify-center ${
-                    activeNode === 'battery'
-                      ? 'bg-indigo-50 border-indigo-500 shadow-md shadow-indigo-600/10'
-                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-indigo-400'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
-                        <BatteryCharging className="w-3.5 h-3.5" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-900 tracking-wider">
-                          BATTERY HUB
-                        </div>
-                        <div className="text-[9px] font-mono text-gray-700 truncate max-w-[100px] sm:max-w-none">
-                          SOC & Dispatch
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-[9px] sm:text-[10px] font-mono font-bold text-indigo-700 bg-indigo-100 px-1.5 py-0.5 rounded shrink-0">
-                      86%
-                    </span>
-                  </div>
-                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden border border-slate-300">
-                    <div className="bg-gradient-to-r from-emerald-400 to-indigo-500 h-full w-[86%] rounded-full" />
-                  </div>
-                </button>
-              </div>
-
-              {/* Connector */}
-              <div className="hidden lg:flex items-center justify-center px-1">
-                <div className="w-4 h-0.5 bg-gradient-to-r from-indigo-500 to-emerald-400" />
-              </div>
-              <div className="lg:hidden flex items-center justify-center py-1">
-                <div className="h-4 w-0.5 bg-gradient-to-b from-indigo-500 to-emerald-400" />
-              </div>
-
-              {/* Community Load */}
-              <div className="flex-1">
-                <button
-                  onClick={() => setActiveNode('load')}
-                  className={`w-full p-3 rounded-xl border transition-all text-left cursor-pointer h-full flex flex-col justify-center ${
-                    activeNode === 'load'
-                      ? 'bg-emerald-50 border-emerald-500 shadow-md shadow-emerald-500/10'
+                      ? 'bg-emerald-50 border-emerald-400 shadow-md shadow-emerald-500/10'
                       : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-emerald-400'
                   }`}
                 >
-                  <div className="flex items-center space-x-2 mb-1">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                      <Home className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-900 tracking-wider">
-                        COASTAL LOAD
-                      </div>
-                      <div className="text-[9px] sm:text-[10px] font-mono font-bold text-emerald-600">
-                        5.20 kW Demand
-                      </div>
-                    </div>
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                    <Leaf className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">BIOGAS GEN</div>
+                    <div className="text-[10px] font-mono text-emerald-600 whitespace-nowrap">500 kW Capacity</div>
+                  </div>
+                </button>
+
+                {/* Diesel Node */}
+                <button
+                  onClick={() => setActiveNode('diesel')}
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+                    activeNode === 'diesel'
+                      ? 'bg-slate-100 border-slate-400 shadow-md shadow-slate-500/10'
+                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-slate-400'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">DIESEL GEN</div>
+                    <div className="text-[10px] font-mono text-slate-600 whitespace-nowrap">4.3 MW Backup</div>
+                  </div>
+                </button>
+              </div>
+
+              {/* Converter & Connectors */}
+              <div className="flex lg:flex-col items-center justify-center px-2 py-4 lg:py-0 gap-2">
+                <div className="hidden lg:block w-px h-8 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+                <div className="lg:hidden h-px w-8 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+                
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-[8px] font-mono text-indigo-500 mb-1">AC/DC CONVERTER</div>
+                  <div className="w-10 h-10 rounded-full border-2 border-indigo-400 bg-indigo-50 flex items-center justify-center shadow-lg shadow-indigo-200/50 relative overflow-hidden">
+                    <Zap className="w-5 h-5 text-indigo-600 relative z-10" />
+                    <div className="absolute inset-0 bg-indigo-200/30 animate-ping rounded-full" style={{ animationDuration: '2s' }}></div>
+                  </div>
+                  <div className="text-[9px] font-mono text-gray-500 mt-1">1.47 MW</div>
+                </div>
+
+                <div className="hidden lg:block w-px h-8 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+                <div className="lg:hidden h-px w-8 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+              </div>
+
+              {/* DC Side: Battery, Electrolyzer, Loads */}
+              <div className="flex-1 flex flex-col gap-2">
+                <div className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest text-center mb-1">DC Bus & Loads</div>
+                
+                {/* Loads Node */}
+                <button
+                  onClick={() => setActiveNode('loads')}
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+                    activeNode === 'loads'
+                      ? 'bg-orange-50 border-orange-400 shadow-md shadow-orange-500/10'
+                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-orange-400'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+                    <Home className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">DEMAND LOADS</div>
+                    <div className="text-[10px] font-mono text-orange-600 whitespace-nowrap">18.2 GWh/yr</div>
+                  </div>
+                </button>
+
+                {/* Battery Node */}
+                <button
+                  onClick={() => setActiveNode('battery')}
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+                    activeNode === 'battery'
+                      ? 'bg-indigo-50 border-indigo-400 shadow-md shadow-indigo-500/10'
+                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-indigo-400'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                    <BatteryCharging className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">BATTERY STORAGE</div>
+                    <div className="text-[10px] font-mono text-indigo-600 whitespace-nowrap">10.17 MWh</div>
+                  </div>
+                </button>
+
+                {/* Electrolyzer Node */}
+                <button
+                  onClick={() => setActiveNode('electrolyzer')}
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+                    activeNode === 'electrolyzer'
+                      ? 'bg-amber-50 border-amber-400 shadow-md shadow-amber-500/10'
+                      : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-amber-400'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 shrink-0">
+                    <Droplet className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">ELECTROLYZER → H2</div>
+                    <div className="text-[10px] font-mono text-amber-600 whitespace-nowrap">750 kW | 23.5 t/yr</div>
                   </div>
                 </button>
               </div>
 
             </div>
 
-            {/* Node Inspector Telemetry Details Box (Moved to bottom spanning full width) */}
+            {/* Node Inspector Telemetry Details Box */}
             {activeNode && nodeTelemetry[activeNode] && (
               <div className="mt-4 p-3 rounded-xl bg-slate-50/80 backdrop-blur-md border border-slate-200 animate-fadeIn">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">

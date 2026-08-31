@@ -1,0 +1,63 @@
+import re
+
+with open('src/components/OverviewSection.tsx', 'r') as f:
+    content = f.read()
+
+pattern = r"  const metrics = \[(.*?)        </div>"
+
+replacement = """  const metrics = [
+    { value: '6 Papers', label: 'Journal Publications & Research', sub: '3 Published \\u00B7 2 Under Review \\u00B7 1 Submitted' },
+    { value: '3.363 / 4.00', label: 'B.Sc. Mechanical Engineering', sub: 'HSTU Dinajpur (2019\\u20132022)' },
+    { value: 'CSWE', label: 'SolidWorks Certified', sub: 'CAD Professional & Sheet Metal' },
+    { value: '2 Medals', label: 'Physics & Math Olympiad', sub: 'Divisional & Regional Awards' }
+  ];
+
+  return (
+    <section className="py-12 sm:py-16 border-t border-slate-200" id="overview">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        
+        {/* Narrative & Impact Highlights */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-12">
+          
+          {metrics.map((m, idx) => (
+            <div 
+              key={idx} 
+              className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all group shadow-sm shadow-slate-200/50 flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-start justify-between">
+                  <div className="text-xl sm:text-2xl font-mono font-bold text-indigo-600 group-hover:scale-105 transition-transform origin-left">
+                    {m.value}
+                  </div>
+                  {idx === 0 && (displayCitations > 0 || displayHIndex > 0) && (
+                    <div className="flex flex-col items-end text-right">
+                      <span className="text-[10px] font-mono font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">
+                        {displayCitations} Citations
+                      </span>
+                      <span className="text-[9px] font-mono text-indigo-500 mt-1">
+                        h-index {displayHIndex}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs font-medium text-gray-900 mt-1">
+                  {m.label}
+                </div>
+              </div>
+              <div className="text-[10px] font-mono text-gray-700 mt-3">
+                {m.sub}
+              </div>
+            </div>
+          ))}
+        </div>"""
+
+new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+
+with open('src/components/OverviewSection.tsx', 'w') as f:
+    f.write(new_content)

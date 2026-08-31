@@ -52,7 +52,27 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, 
   const [editingPubId, setEditingPubId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Omit<Publication, 'id'>>(EMPTY_PUB);
   const [tagsInput, setTagsInput] = useState('');
+  const [geminiJson, setGeminiJson] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleJsonPaste = (val: string) => {
+    setGeminiJson(val);
+    try {
+      const parsed = JSON.parse(val);
+      if (parsed.purpose || parsed.key_findings || parsed.methods_used || parsed.title) {
+        setFormData(prev => ({
+           ...prev,
+           title: parsed.title || prev.title,
+           purpose: parsed.purpose || prev.purpose,
+           key_findings: parsed.key_findings || prev.key_findings,
+           methods_used: parsed.methods_used || prev.methods_used,
+        }));
+        showToast('JSON successfully parsed into fields!', 'success');
+      }
+    } catch(err) {
+      // Not valid JSON yet, ignore silently
+    }
+  };
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -129,6 +149,7 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, 
     setEditingPubId(null);
     setFormData(EMPTY_PUB);
     setTagsInput('');
+    setGeminiJson('');
     setIsModalOpen(true);
   };
 
@@ -147,9 +168,17 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, 
       citations: pub.citations || 0,
       featured: !!pub.featured,
       tags: pub.tags || [],
-      bibtex: pub.bibtex || ''
+      bibtex: pub.bibtex || '',
+      purpose: pub.purpose || '',
+      key_findings: pub.key_findings || [],
+      methods_used: pub.methods_used || []
     });
     setTagsInput((pub.tags || []).join(', '));
+    setGeminiJson(JSON.stringify({
+      purpose: pub.purpose,
+      key_findings: pub.key_findings,
+      methods_used: pub.methods_used
+    }, null, 2));
     setIsModalOpen(true);
   };
 
@@ -495,6 +524,25 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, 
                   onChange={(e) => setFormData({ ...formData, abstract: e.target.value })}
                   placeholder="Summary of research methodology and findings..."
                   className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white focus:ring-2 focus:ring-indigo-500/30 resize-y"
+                />
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-semibold text-indigo-400">
+                    Gemini Extraction JSON (Optional for Telemetry)
+                  </label>
+                  <span className="text-[10px] text-slate-500">Paste JSON to auto-fill purpose and key findings</span>
+                </div>
+                <textarea
+                  rows={4}
+                  value={geminiJson}
+                  onChange={(e) => handleJsonPaste(e.target.value)}
+                  placeholder={`{
+  "purpose": "...",
+  "key_findings": [...]
+}`}
+                  className="w-full px-3.5 py-2 text-xs font-mono bg-slate-950 border border-indigo-900/50 rounded-xl text-indigo-200 focus:ring-2 focus:ring-indigo-500/30 resize-y"
                 />
               </div>
 
