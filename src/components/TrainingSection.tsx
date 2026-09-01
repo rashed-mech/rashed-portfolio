@@ -99,7 +99,7 @@ const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Ce
                       {slideObj.title}
                     </h4>
                   </button>
-                  <div className="text-xs font-mono text-gray-800 mt-1">
+                  <div className="text-xs font-mono text-black mt-1">
                     {cert.issuer}
                   </div>
                 </div>
@@ -120,7 +120,7 @@ const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Ce
                     className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors duration-300 border focus:outline-none cursor-pointer hover:border-indigo-400 ${
                       isActive 
                         ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' 
-                        : 'bg-white/90 text-gray-900 border-slate-200/80 backdrop-blur-sm hover:bg-indigo-50'
+                        : 'bg-white/90 text-black border-slate-200/80 backdrop-blur-sm hover:bg-indigo-50'
                     }`}
                   >
                     {m.title}
@@ -173,7 +173,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
           
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Professional Training, Field Visits & Certifications"}</h2>
           {(config?.subtitle ?? "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering.") && (
-            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering."}</p>
+            <p className="text-sm sm:text-base text-black font-light leading-relaxed w-full max-w-full text-justify">{config?.subtitle ?? "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering."}</p>
           )}
         </div>
 
@@ -182,7 +182,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
           <div className="space-y-6 mb-12">
             <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
               <MapPin className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+              <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                 PROFESSIONAL TRAINING & FIELD VISITS
               </h3>
             </div>
@@ -204,11 +204,11 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                     <h4 className="text-sm sm:text-base font-bold text-black group-hover:text-indigo-600 transition-colors leading-snug">
                       {tr.title}
                     </h4>
-                    <div className="text-xs font-mono text-gray-800">
+                    <div className="text-xs font-mono text-black">
                       {tr.issuer}
                     </div>
                     {tr.description && (
-                      <p className="text-xs text-gray-700 font-light leading-relaxed">
+                      <p className="text-xs text-black font-light leading-relaxed text-justify">
                         {tr.description}
                       </p>
                     )}
@@ -224,7 +224,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
           <div className="space-y-6">
             <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
               <ShieldCheck className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+              <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                 CERTIFICATIONS
               </h3>
             </div>
@@ -256,7 +256,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
           >
             <button 
               onClick={() => setSelectedCert(null)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-gray-900 hover:bg-slate-100 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-black hover:text-black hover:bg-slate-100 rounded-full transition-colors z-10"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -266,7 +266,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
               <h3 className="text-xl sm:text-2xl font-bold text-black leading-tight">
                 {currentModalObj.title}
               </h3>
-              <p className="text-sm text-gray-700 mt-1 font-mono">
+              <p className="text-sm text-black mt-1 font-mono text-justify">
                 {selectedCert.issuer} • {selectedCert.year}
               </p>
             </div>
@@ -279,7 +279,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                       e.stopPropagation();
                       setSelectedSlideIdx(prev => (prev - 1 + modalSlides.length) % modalSlides.length);
                     }}
-                    className="absolute left-2 sm:left-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-gray-800 hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="absolute left-2 sm:left-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-black hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     aria-label="Previous Certificate"
                   >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -289,7 +289,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                       e.stopPropagation();
                       setSelectedSlideIdx(prev => (prev + 1) % modalSlides.length);
                     }}
-                    className="absolute right-2 sm:right-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-gray-800 hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="absolute right-2 sm:right-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-black hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     aria-label="Next Certificate"
                   >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -307,9 +307,9 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                   onClick={() => window.open(formatImageUrl(currentModalObj.imageUrl), '_blank')}
                 />
               ) : (
-                <div className="py-20 flex flex-col items-center justify-center text-slate-400 space-y-3">
+                <div className="py-20 flex flex-col items-center justify-center text-black space-y-3">
                   <Award className="w-16 h-16 opacity-20" />
-                  <p className="text-sm font-medium">No certificate image available</p>
+                  <p className="text-sm font-medium text-justify">No certificate image available</p>
                 </div>
               )}
             </div>
@@ -318,12 +318,12 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <button 
                   onClick={() => setSelectedCert(null)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-800 hover:text-black transition-colors"
+                  className="px-4 py-2 text-sm font-semibold text-black hover:text-black transition-colors"
                 >
                   Close
                 </button>
                 {modalSlides.length > 1 && (
-                  <div className="text-xs font-mono text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full">
+                  <div className="text-xs font-mono text-black bg-slate-100 px-3 py-1.5 rounded-full">
                     {selectedSlideIdx + 1} / {modalSlides.length}
                   </div>
                 )}
@@ -339,7 +339,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                   Verify Credential <ExternalLink className="w-4 h-4 ml-2" />
                 </a>
               ) : (
-                <span className="text-xs text-slate-400 italic">No external verification link</span>
+                <span className="text-xs text-black italic">No external verification link</span>
               )}
             </div>
           </div>

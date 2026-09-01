@@ -74,23 +74,23 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
               
               {profile.aboutText && profile.aboutText.length > 0 ? (
                 profile.aboutText.map((paragraph, idx) => (
-                  <p key={idx} className="text-sm sm:text-base text-gray-800 dark:text-slate-300 leading-relaxed">
+                  <p key={idx} className="text-sm sm:text-base text-black dark:text-slate-300 leading-relaxed">
                     {paragraph}
                   </p>
                 ))
               ) : (
-                <p className="text-sm sm:text-base text-gray-800 dark:text-slate-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-black dark:text-slate-300 leading-relaxed text-justify">
                   {profile.bio}
                 </p>
               )}
 
               {/* Research laboratory / Affiliation highlights */}
               <div className="pt-4 border-t border-slate-100 dark:border-slate-700/80 space-y-2">
-                <div className="flex items-start space-x-2 text-xs font-medium text-gray-900 dark:text-slate-300">
+                <div className="flex items-start space-x-2 text-xs font-medium text-black dark:text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                   <span>Primary Research: {profile.department}</span>
                 </div>
-                <div className="flex items-start space-x-2 text-xs font-medium text-gray-900 dark:text-slate-300">
+                <div className="flex items-start space-x-2 text-xs font-medium text-black dark:text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                   <span>Affiliation: {profile.affiliation}</span>
                 </div>
@@ -113,7 +113,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                   <h4 className="text-sm font-bold text-black dark:text-white">
                     {pillar.title}
                   </h4>
-                  <p className="text-xs text-gray-800 dark:text-slate-300 leading-relaxed">
+                  <p className="text-xs text-black dark:text-slate-300 leading-relaxed text-justify">
                     {pillar.description}
                   </p>
                 </div>

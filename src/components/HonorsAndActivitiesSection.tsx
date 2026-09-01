@@ -37,7 +37,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
         <div className="space-y-3">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Honors, Co-Curricular Leadership & Academic References"}</h2>
           {(config?.subtitle ?? "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references.") && (
-            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references."}</p>
+            <p className="text-sm sm:text-base text-black font-light leading-relaxed w-full max-w-full text-justify">{config?.subtitle ?? "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references."}</p>
           )}
         </div>
 
@@ -52,7 +52,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                 <div className={`space-y-6 ${affiliations.length > 0 ? 'lg:col-span-6' : 'lg:col-span-12'}`}>
                   <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
                     <Trophy className="w-4 h-4 text-indigo-600" />
-                    <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                    <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                       ACHIEVEMENTS & AWARDS
                     </h3>
                   </div>
@@ -68,7 +68,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                               {ach.year}
                             </span>
                             {ach.category && (
-                              <span className="text-[10px] font-mono text-gray-700">
+                              <span className="text-[10px] font-mono text-black">
                                 {ach.category}
                               </span>
                             )}
@@ -77,7 +77,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                             {ach.title}
                           </h4>
                           {ach.organization && (
-                            <div className="text-xs font-mono text-gray-800">
+                            <div className="text-xs font-mono text-black">
                               {ach.organization}
                             </div>
                           )}
@@ -93,7 +93,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                 <div className={`space-y-4 ${achievements.length > 0 ? 'lg:col-span-6' : 'lg:col-span-12'}`}>
                   <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
                     <Users className="w-4 h-4 text-indigo-600" />
-                    <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                    <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                       PROFESSIONAL AFFILIATIONS & ACTIVITIES
                     </h3>
                   </div>
@@ -107,11 +107,11 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                           <h4 className="text-sm font-bold text-black group-hover:text-indigo-600 transition-colors">
                             {aff.organization}
                           </h4>
-                          <div className="text-xs font-mono text-gray-800">
+                          <div className="text-xs font-mono text-black">
                             Role: <span className="text-indigo-600 font-medium">{aff.role}</span>
                           </div>
                         </div>
-                        <span className="px-2.5 py-1 rounded bg-white/60 backdrop-blur-md border border-slate-200 text-[11px] font-mono text-gray-900 shrink-0 ml-2">
+                        <span className="px-2.5 py-1 rounded bg-white/60 backdrop-blur-md border border-slate-200 text-[11px] font-mono text-black shrink-0 ml-2">
                           {aff.period}
                         </span>
                       </div>
@@ -127,7 +127,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
             <div className="space-y-4 pt-4">
               <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
                 <HeartHandshake className="w-4 h-4 text-indigo-600" />
-                <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+                <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                   VOLUNTEER EXPERIENCES
                 </h3>
               </div>
@@ -142,18 +142,18 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                         {vol.title || vol.role}
                       </h4>
                       {vol.period && (
-                        <span className="text-[11px] font-mono text-gray-700 ml-2 shrink-0">
+                        <span className="text-[11px] font-mono text-black ml-2 shrink-0">
                           {vol.period}
                         </span>
                       )}
                     </div>
                     {(vol.organization || (!vol.title && vol.role)) && (
-                      <div className="text-xs font-mono text-gray-800">
+                      <div className="text-xs font-mono text-black">
                         {vol.organization}
                       </div>
                     )}
                     {vol.description && (
-                      <p className="text-xs text-gray-700 font-light pt-1">
+                      <p className="text-xs text-black font-light pt-1 text-justify">
                         {vol.description}
                       </p>
                     )}

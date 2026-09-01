@@ -143,7 +143,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Section: Avatar and Bio */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start mb-16">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start mb-8">
           
           {/* Left: Profile Image and Action Buttons */}
           <motion.div 
@@ -219,7 +219,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.2 }}
-              className="mt-6 space-y-4 text-sm sm:text-base text-gray-900 leading-relaxed max-w-3xl mx-auto lg:mx-0 text-justify"
+              className="mt-6 space-y-4 text-sm sm:text-base text-black leading-relaxed w-full text-justify"
             >
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-12 sm:w-16 h-[2px] bg-indigo-600"></div>
@@ -227,19 +227,47 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                   Welcome to my personal webpage.
                 </h3>
               </div>
-              <p>
+              <p className="text-justify text-black leading-relaxed">
                 {profile.aboutText?.[0] || profile.bio}
               </p>
-              <p>
+              <p className="text-justify text-black leading-relaxed">
                 {profile.aboutText?.[1] || "Experienced in electrical system assessment, solar PV integration, generator performance monitoring, and energy efficiency optimization. Proven ability to design, validate, and document energy systems for off-grid and resource-constrained environments."}
               </p>
-              <p>
+              <p className="text-justify text-black leading-relaxed">
                 {profile.aboutText?.[2] || "Published researcher with hands-on fieldwork in remote energy infrastructure in coastal Bangladesh. Seeking to apply technical energy expertise in support of MSF humanitarian operations in Bangladesh."}
               </p>
+
             </motion.div>
 
           </div>
         </div>
+
+        {/* My Current Research Interest - Full Width */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.4 }}
+          className="w-full mb-16"
+        >
+          <div className="flex items-center space-x-4 mb-4">
+            <div className="w-12 sm:w-16 h-[2px] bg-indigo-600"></div>
+            <h3 className="text-base sm:text-lg font-semibold tracking-tight text-black font-sans">
+              My Current Research Interest
+            </h3>
+          </div>
+          <p className="text-justify text-black leading-relaxed w-full">
+            {profile.researchInterestText || "Hi! I'm Rashedul Islam, a mechanical engineer a native of Cox's Bazar, Bangladesh, with a strong and lasting interest in Computational Fluid Dynamics and hydrogen combustion. I completed my B.Sc. in Mechanical Engineering at Hajee Mohammad Danesh Science and Technology University (HSTU), Dinajpur, and from early on I found myself pulled toward the questions CFD lets you ask- how fuels ignite and burn, how flows behave under pressure and turbulence, and how small changes in geometry or chemistry ripple through a system's performance. That curiosity has stayed with me, and I continue to work with tools like CONVERGE, ANSYS Fluent, and COMSOL Multiphysics to explore combustion and reacting-flow problems, with hydrogen as a fuel of particular interest given its promise for cleaner energy systems."}
+          </p>
+          <div className="pt-4">
+            <div className="flex flex-wrap gap-2">
+              {(profile.researchInterests || ['Material Science', 'Additive Manufacturing Materials', 'Renewable Energy', 'Hydrogen Fuel', 'CFD in biofuels']).map((interest, idx) => (
+                <span key={idx} className="px-2.5 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-medium rounded-md">
+                  {interest}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Overview Heading */}
         <motion.div
@@ -280,7 +308,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
               
               {/* AC Side: Wind, Biogas, Diesel */}
               <div className="flex-1 flex flex-col gap-2">
-                <div className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest text-center mb-1">AC Bus</div>
+                <div className="text-[10px] font-mono font-bold text-black uppercase tracking-widest text-center mb-1">AC Bus</div>
                 
                 {/* Wind Node */}
                 <button
@@ -295,7 +323,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <Wind className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">WIND TURBINES</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">WIND TURBINES</div>
                     <div className="text-[10px] font-mono text-sky-600 whitespace-nowrap">9.9 MW Capacity</div>
                   </div>
                 </button>
@@ -313,7 +341,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <Leaf className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">BIOGAS GEN</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">BIOGAS GEN</div>
                     <div className="text-[10px] font-mono text-emerald-600 whitespace-nowrap">500 kW Capacity</div>
                   </div>
                 </button>
@@ -327,12 +355,12 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                       : 'bg-white/60 backdrop-blur-md border-slate-200 hover:border-slate-400'
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-black shrink-0">
                     <Activity className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">DIESEL GEN</div>
-                    <div className="text-[10px] font-mono text-slate-600 whitespace-nowrap">4.3 MW Backup</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">DIESEL GEN</div>
+                    <div className="text-[10px] font-mono text-black whitespace-nowrap">4.3 MW Backup</div>
                   </div>
                 </button>
               </div>
@@ -348,7 +376,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <Zap className="w-5 h-5 text-indigo-600 relative z-10" />
                     <div className="absolute inset-0 bg-indigo-200/30 animate-ping rounded-full" style={{ animationDuration: '2s' }}></div>
                   </div>
-                  <div className="text-[9px] font-mono text-gray-500 mt-1">1.47 MW</div>
+                  <div className="text-[9px] font-mono text-black mt-1">1.47 MW</div>
                 </div>
 
                 <div className="hidden lg:block w-px h-8 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
@@ -357,7 +385,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
 
               {/* DC Side: Battery, Electrolyzer, Loads */}
               <div className="flex-1 flex flex-col gap-2">
-                <div className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest text-center mb-1">DC Bus & Loads</div>
+                <div className="text-[10px] font-mono font-bold text-black uppercase tracking-widest text-center mb-1">DC Bus & Loads</div>
                 
                 {/* Loads Node */}
                 <button
@@ -372,7 +400,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <Home className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">DEMAND LOADS</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">DEMAND LOADS</div>
                     <div className="text-[10px] font-mono text-orange-600 whitespace-nowrap">18.2 GWh/yr</div>
                   </div>
                 </button>
@@ -390,7 +418,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <BatteryCharging className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">BATTERY STORAGE</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">BATTERY STORAGE</div>
                     <div className="text-[10px] font-mono text-indigo-600 whitespace-nowrap">10.17 MWh</div>
                   </div>
                 </button>
@@ -408,7 +436,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                     <Droplet className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono font-bold text-gray-900 leading-tight">ELECTROLYZER → H2</div>
+                    <div className="text-[11px] font-mono font-bold text-black leading-tight">ELECTROLYZER → H2</div>
                     <div className="text-[10px] font-mono text-amber-600 whitespace-nowrap">750 kW | 23.5 t/yr</div>
                   </div>
                 </button>
@@ -429,16 +457,16 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
                         ({nodeTelemetry[activeNode].status})
                       </span>
                     </div>
-                    <div className="text-[11px] text-gray-800 font-sans">
+                    <div className="text-[11px] text-black font-sans">
                       {nodeTelemetry[activeNode].detail}
                     </div>
                   </div>
                   
-                  <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-gray-700 shrink-0 mt-2 sm:mt-0">
-                    <span className="px-2 py-1 rounded-md bg-white border border-slate-200 text-gray-900 shadow-sm whitespace-nowrap">
+                  <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-black shrink-0 mt-2 sm:mt-0">
+                    <span className="px-2 py-1 rounded-md bg-white border border-slate-200 text-black shadow-sm whitespace-nowrap">
                       ⚡ {nodeTelemetry[activeNode].output}
                     </span>
-                    <span className="px-2 py-1 rounded-md bg-white border border-slate-200 text-gray-900 shadow-sm whitespace-nowrap">
+                    <span className="px-2 py-1 rounded-md bg-white border border-slate-200 text-black shadow-sm whitespace-nowrap">
                       📊 {nodeTelemetry[activeNode].efficiency}
                     </span>
                   </div>

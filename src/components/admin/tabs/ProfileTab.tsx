@@ -21,6 +21,10 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, onRefresh, show
   const [aboutParagraphsText, setAboutParagraphsText] = useState(
     (profile.aboutText || []).join('\n\n')
   );
+  const [researchInterestText, setResearchInterestText] = useState(profile.researchInterestText || "");
+  const [researchInterestsText, setResearchInterestsText] = useState(
+    (profile.researchInterests || ['Material Science', 'Additive Manufacturing Materials', 'Renewable Energy', 'Hydrogen Fuel', 'CFD in biofuels']).join(', ')
+  );
   const [loading, setLoading] = useState(false);
 
   // Live Google Scholar stats — same shared hook used on the public site
@@ -34,6 +38,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, onRefresh, show
     e.preventDefault();
     setLoading(true);
 
+    const parsedInterests = researchInterestsText.split(',').map(i => i.trim()).filter(Boolean);
     const parsedAbout = aboutParagraphsText
       .split('\n\n')
       .map(p => p.trim())
@@ -42,6 +47,8 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, onRefresh, show
     const payload: Profile = {
       ...formData,
       aboutText: parsedAbout,
+      researchInterests: parsedInterests,
+      researchInterestText: researchInterestText,
       stats: {
         ...formData.stats,
         citations: displayCitations,
@@ -290,6 +297,33 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, onRefresh, show
               value={aboutParagraphsText}
               onChange={(e) => setAboutParagraphsText(e.target.value)}
               className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white resize-y leading-relaxed font-sans"
+            />
+          </div>
+        </div>
+
+        <div className="p-6 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-4">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider text-indigo-400">
+            Current Research Interests
+          </h3>
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-300">Comma-Separated Interests</label>
+            <input
+              type="text"
+              value={researchInterestsText}
+              onChange={(e) => setResearchInterestsText(e.target.value)}
+              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white"
+              placeholder="Material Science, Renewable Energy, Hydrogen Fuel"
+            />
+            <p className="text-xs text-slate-500 mt-1">These will appear as pills under your introduction.</p>
+          </div>
+          <div className="space-y-1.5 mt-4">
+            <label className="text-xs font-semibold text-slate-300">Research Interest Paragraph</label>
+            <textarea
+              value={researchInterestText}
+              onChange={(e) => setResearchInterestText(e.target.value)}
+              className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white resize-y leading-relaxed font-sans"
+              rows={4}
+              placeholder="Hi! I'm Rashedul Islam..."
             />
           </div>
         </div>

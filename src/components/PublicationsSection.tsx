@@ -223,7 +223,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
           
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Peer-Reviewed Journal Papers, Conference Proceedings & Preprints"}</h2>
           {(config?.subtitle ?? "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation.") && (
-            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation."}</p>
+            <p className="text-sm sm:text-base text-black font-light leading-relaxed w-full max-w-full text-justify">{config?.subtitle ?? "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation."}</p>
           )}
         </div>
 
@@ -240,7 +240,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-mono tracking-wider uppercase transition-all cursor-pointer ${
                     selectedCategory === cat
                       ? 'bg-indigo-600 text-white font-bold shadow-md shadow-indigo-600/20'
-                      : 'bg-slate-50 text-gray-800 hover:text-black border border-slate-200'
+                      : 'bg-slate-50 text-black hover:text-black border border-slate-200'
                   }`}
                 >
                   {cat === 'all' ? 'ALL PAPERS' : cat}
@@ -268,13 +268,13 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
               
               {/* Sort selector */}
-              <div className="flex items-center space-x-1.5 bg-white/90 border border-slate-200 rounded-xl px-3 py-1.5 shadow-sm text-xs text-gray-900">
+              <div className="flex items-center space-x-1.5 bg-white/90 border border-slate-200 rounded-xl px-3 py-1.5 shadow-sm text-xs text-black">
                 <ArrowUpDown className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                <span className="font-mono text-[11px] text-slate-400">Sort:</span>
+                <span className="font-mono text-[11px] text-black">Sort:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-transparent font-medium text-gray-900 focus:outline-none cursor-pointer pr-1"
+                  className="bg-transparent font-medium text-black focus:outline-none cursor-pointer pr-1"
                 >
                   <option value="latest">Latest Work First</option>
                   <option value="citations">Most Cited First</option>
@@ -285,7 +285,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
 
               {/* Search Input */}
               <div className="relative w-full sm:w-64">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-black absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -302,8 +302,8 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
         {/* Publications List */}
         {filteredAndSortedPubs.length === 0 ? (
           <div className="p-12 text-center rounded-2xl bg-white/60 backdrop-blur-md border border-slate-200 space-y-3">
-            <BookOpen className="w-8 h-8 text-slate-400 mx-auto" />
-            <p className="text-sm text-gray-700 font-mono">No publications matched your filter criteria.</p>
+            <BookOpen className="w-8 h-8 text-black mx-auto" />
+            <p className="text-sm text-black font-mono text-justify">No publications matched your filter criteria.</p>
             <button
               onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
               className="text-xs font-mono text-indigo-600 hover:underline"
@@ -347,12 +347,12 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                           ? 'bg-amber-50 text-amber-700 border-amber-200'
                           : pub.category === 'Conference'
                           ? 'bg-sky-50 text-sky-700 border-sky-200'
-                          : 'bg-slate-50 text-gray-900 border-slate-200'
+                          : 'bg-slate-50 text-black border-slate-200'
                       }`}>
                         {pub.statusNote || pub.category}
                       </span>
                       
-                      <span className="text-xs font-mono font-bold text-gray-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                      <span className="text-xs font-mono font-bold text-black bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                         {pub.year}
                       </span>
                     </div>
@@ -376,12 +376,12 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                   </h3>
 
                   {/* Authors & Venue */}
-                  <div className="space-y-1 text-xs text-gray-800">
-                    <p className="font-light">
-                      <span className="text-gray-700 font-mono">Authors: </span>
+                  <div className="space-y-1 text-xs text-black">
+                    <p className="font-light text-justify">
+                      <span className="text-black font-mono">Authors: </span>
                       {pub.authors}
                     </p>
-                    <p className="font-mono text-indigo-600 font-medium">
+                    <p className="font-mono text-indigo-600 font-medium text-justify">
                       {pub.venue}
                     </p>
                   </div>
@@ -392,7 +392,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                       {pub.tags.map((tag, tIdx) => (
                         <span 
                           key={tIdx} 
-                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-50 text-gray-800 border border-slate-200"
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-50 text-black border border-slate-200"
                         >
                           #{tag}
                         </span>
@@ -402,7 +402,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
 
                   {/* Expandable Abstract */}
                   {isExpanded && pub.abstract && (
-                    <div className="mt-3 p-4 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200 text-xs text-gray-800 font-light leading-relaxed space-y-1 animate-fadeIn shadow-inner">
+                    <div className="mt-3 p-4 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200 text-xs text-black font-light leading-relaxed space-y-1 animate-fadeIn shadow-inner">
                       <span className="text-[11px] font-mono text-indigo-700 uppercase font-semibold block">
                         Abstract
                       </span>
@@ -415,7 +415,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                     {pub.abstract ? (
                       <button
                         onClick={() => toggleAbstract(pub.id)}
-                        className="inline-flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors cursor-pointer"
+                        className="inline-flex items-center space-x-1 text-black hover:text-indigo-600 transition-colors cursor-pointer"
                       >
                         {isExpanded ? (
                           <>
@@ -447,7 +447,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                           href={`https://doi.org/${pub.doi.replace('https://doi.org/', '')}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center space-x-1 text-gray-800 hover:text-indigo-600 hover:underline"
+                          className="inline-flex items-center space-x-1 text-black hover:text-indigo-600 hover:underline"
                         >
                           <ExternalLink className="w-3.5 h-3.5 text-indigo-600" />
                           <span>DOI</span>
@@ -459,7 +459,7 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
                           href={pub.pdfUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center space-x-1 text-gray-800 hover:text-indigo-600 hover:underline"
+                          className="inline-flex items-center space-x-1 text-black hover:text-indigo-600 hover:underline"
                         >
                           <FileText className="w-3.5 h-3.5 text-rose-500" />
                           <span>PDF</span>

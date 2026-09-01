@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const navLinks = [
-    { name: 'OVERVIEW', href: '#overview' },
+    { name: 'OVERVIEW', href: '#hero' },
     { name: 'CAPABILITIES', href: '#capabilities' },
     { name: 'PROJECTS', href: '#projects' },
     { name: 'EXPERIENCE', href: '#experience' },
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
               <a
                 key={link.name}
                 href={link.href}
-                className="relative text-[13px] font-sans font-semibold tracking-wider text-gray-700 hover:text-indigo-600 transition-colors uppercase after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-600 after:transition-all hover:after:w-full"
+                className="relative text-[13px] font-sans font-semibold tracking-wider text-black hover:text-indigo-600 transition-colors uppercase after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-600 after:transition-all hover:after:w-full"
               >
                 {link.name}
               </a>
@@ -111,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex md:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-800 hover:text-black hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-lg text-black hover:text-black hover:bg-slate-100 transition-colors"
               id="mobile-menu-toggle-btn"
               aria-label="Toggle navigation menu"
             >
@@ -129,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-lg text-sm font-sans font-semibold tracking-wider text-gray-800 hover:bg-slate-50 hover:text-indigo-600 transition-colors uppercase hover:underline underline-offset-4 decoration-2 decoration-indigo-500"
+              className="block px-3 py-2.5 rounded-lg text-sm font-sans font-semibold tracking-wider text-black hover:bg-slate-50 hover:text-indigo-600 transition-colors uppercase hover:underline underline-offset-4 decoration-2 decoration-indigo-500"
             >
               {link.name}
             </a>

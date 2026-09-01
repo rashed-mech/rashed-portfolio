@@ -37,7 +37,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Relevant Experiences & Education"}</h2>
           {(config?.subtitle ?? "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree.") && (
-            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree."}</p>
+            <p className="text-sm sm:text-base text-black font-light leading-relaxed w-full max-w-full text-justify">{config?.subtitle ?? "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree."}</p>
           )}
         </div>
 
@@ -47,7 +47,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           <div className="lg:col-span-7 space-y-6">
             <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
               <Briefcase className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+              <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                 RELEVANT EXPERIENCES
               </h3>
             </div>
@@ -63,7 +63,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                       <h4 className="text-base font-bold text-black group-hover:text-indigo-600 transition-colors">
                         {exp.role}
                       </h4>
-                      <div className="text-xs font-mono text-gray-700 mt-0.5">
+                      <div className="text-xs font-mono text-black mt-0.5">
                         {exp.organization}
                       </div>
                     </div>
@@ -74,13 +74,13 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                     </span>
                   </div>
 
-                  <div className="flex items-center space-x-2 text-xs font-mono text-gray-700">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <div className="flex items-center space-x-2 text-xs font-mono text-black">
+                    <MapPin className="w-3.5 h-3.5 text-black" />
                     <span>{exp.location}</span>
                   </div>
 
                   {exp.description && (
-                    <p className="text-xs sm:text-sm text-gray-800 font-light leading-relaxed">
+                    <p className="text-xs sm:text-sm text-black font-light leading-relaxed text-justify">
                       {exp.description}
                     </p>
                   )}
@@ -88,7 +88,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                   {exp.highlights && exp.highlights.length > 0 && (
                     <ul className="pt-2 space-y-1.5 border-t border-slate-100">
                       {exp.highlights.map((item, hIdx) => (
-                        <li key={hIdx} className="flex items-start space-x-2 text-xs text-gray-800 font-light">
+                        <li key={hIdx}  className="flex items-start space-x-2 text-xs text-black font-light text-justify">
                           <ChevronRight className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
                           <span>{item}</span>
                         </li>
@@ -104,7 +104,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           <div className="lg:col-span-5 space-y-6">
             <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
               <GraduationCap className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-sm font-mono tracking-wider text-gray-900 uppercase font-semibold">
+              <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
                 EDUCATION
               </h3>
             </div>
@@ -124,13 +124,13 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                     </span>
                   </div>
 
-                  <div className="text-xs text-gray-800 font-medium">
+                  <div className="text-xs text-black font-medium">
                     {edu.institution}
                   </div>
 
                   {edu.location && (
-                    <div className="flex items-center space-x-1.5 text-xs font-mono text-gray-700">
-                      <MapPin className="w-3 h-3 text-slate-400" />
+                    <div className="flex items-center space-x-1.5 text-xs font-mono text-black">
+                      <MapPin className="w-3 h-3 text-black" />
                       <span>{edu.location}</span>
                     </div>
                   )}
@@ -143,22 +143,42 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                   )}
 
                   {edu.thesis && (
-                    <div className="pt-2 border-t border-slate-100 text-xs text-gray-800 space-y-1">
+                    <div className="pt-2 border-t border-slate-100 text-xs text-black space-y-1">
                       <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
                         Dissertation / Thesis:
                       </span>
-                      <p className="font-light italic text-gray-900">
+                      <p className="text-black text-justify leading-relaxed font-normal">
                         {edu.thesis}
+                      </p>
+                    </div>
+                  )}
+                  {edu.advisor && (
+                    <div className="text-xs text-black space-y-1">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
+                        Advisor:
+                      </span>
+                      <p className="text-black text-justify leading-relaxed font-normal">
+                        {edu.advisor}
+                      </p>
+                    </div>
+                  )}
+                  {edu.synopsis && (
+                    <div className="text-xs text-black space-y-1">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
+                        Synopsis:
+                      </span>
+                      <p className="text-black text-justify leading-relaxed font-normal whitespace-pre-line">
+                        {edu.synopsis}
                       </p>
                     </div>
                   )}
 
                   {edu.coursework && (
-                    <div className="pt-2 border-t border-slate-100 text-xs text-gray-800 space-y-1">
-                      <span className="font-mono text-gray-700 block text-[10px] uppercase tracking-wider">
+                    <div className="pt-2 border-t border-slate-100 text-xs text-black space-y-1">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
                         Relevant Coursework:
                       </span>
-                      <p className="font-light text-gray-800">
+                      <p className="text-black text-justify leading-relaxed font-normal">
                         {edu.coursework}
                       </p>
                     </div>

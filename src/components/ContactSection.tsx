@@ -250,10 +250,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
         {/* Compact Header & Controls */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
           <div>
-            <h2 className="text-3xl font-space font-bold text-slate-900 tracking-tight">
+            <h2 className="text-3xl font-space font-bold text-black tracking-tight">
               Production Line
             </h2>
-            <p className="mt-2 text-xs font-ibm text-slate-500 uppercase tracking-widest">
+            <p className="mt-2 text-xs font-ibm text-black uppercase tracking-widest text-justify">
               {isEngaged ? "STATUS: ONLINE. ASSEMBLING PROTOCOLS..." : "STATUS: IDLE. AWAITING ACTIVATION."}
             </p>
           </div>
@@ -263,11 +263,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             className={`group relative px-6 py-3 rounded-lg font-ibm text-xs uppercase tracking-widest font-bold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 border-2 flex items-center gap-3 ${
               isEngaged 
                 ? 'bg-slate-900 text-slate-100 border-slate-900 shadow-md focus:ring-slate-900' 
-                : 'bg-white text-slate-900 border-slate-900 hover:bg-slate-50 shadow-sm focus:ring-slate-900 hover:-translate-y-0.5'
+                : 'bg-white text-black border-slate-900 hover:bg-slate-50 shadow-sm focus:ring-slate-900 hover:-translate-y-0.5'
             }`}
             aria-pressed={isEngaged}
           >
-            {isEngaged ? <Square className="w-4 h-4 text-[#E3A34D]" fill="currentColor" /> : <Play className="w-4 h-4 text-slate-400 group-hover:text-slate-900" fill="currentColor" />}
+            {isEngaged ? <Square className="w-4 h-4 text-[#E3A34D]" fill="currentColor" /> : <Play className="w-4 h-4 text-black group-hover:text-black" fill="currentColor" />}
             {isEngaged ? 'HALT SYSTEM' : 'ENGAGE LINE'}
           </button>
         </div>
@@ -362,14 +362,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             <h3 className="text-2xl font-space font-bold text-white mb-4">
               Line operational. Ready to build?
             </h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+            <p className="text-black text-sm mb-8 leading-relaxed text-justify">
               The assembly sequence is complete. Let's connect to discuss fluid analysis, mechanical design, or your next complex integration. You can reach out directly via email, connect on LinkedIn, or send a secure message using the terminal.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center justify-center space-x-2 bg-[#E3A34D] hover:bg-[#c98a39] text-slate-900 px-6 py-3 rounded-lg font-ibm text-sm font-bold uppercase tracking-widest transition-colors shadow-lg shadow-amber-900/20"
+                className="inline-flex items-center justify-center space-x-2 bg-[#E3A34D] hover:bg-[#c98a39] text-black px-6 py-3 rounded-lg font-ibm text-sm font-bold uppercase tracking-widest transition-colors shadow-lg shadow-amber-900/20"
               >
                 <Mail className="w-4 h-4" />
                 <span>Email</span>
@@ -389,13 +389,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           </div>
 
           <div className="bg-white rounded-xl p-6 md:p-8 shadow-sm border border-slate-200">
-            <h3 className="text-xl font-space font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <h3 className="text-xl font-space font-bold text-black mb-6 flex items-center gap-2">
                Contact Messages
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="name" className="text-xs font-ibm font-semibold text-slate-600 uppercase tracking-wider">Name</label>
+                  <label htmlFor="name" className="text-xs font-ibm font-semibold text-black uppercase tracking-wider">Name</label>
                   <input
                     type="text"
                     id="name"
@@ -407,7 +407,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="email" className="text-xs font-ibm font-semibold text-slate-600 uppercase tracking-wider">Email</label>
+                  <label htmlFor="email" className="text-xs font-ibm font-semibold text-black uppercase tracking-wider">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -421,7 +421,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               </div>
               
               <div className="space-y-1.5">
-                <label htmlFor="subject" className="text-xs font-ibm font-semibold text-slate-600 uppercase tracking-wider">Subject</label>
+                <label htmlFor="subject" className="text-xs font-ibm font-semibold text-black uppercase tracking-wider">Subject</label>
                 <input
                   type="text"
                   id="subject"
@@ -434,7 +434,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="message" className="text-xs font-ibm font-semibold text-slate-600 uppercase tracking-wider">Message</label>
+                <label htmlFor="message" className="text-xs font-ibm font-semibold text-black uppercase tracking-wider">Message</label>
                 <textarea
                   id="message"
                   required

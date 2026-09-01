@@ -36,7 +36,7 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
   const [highlightsInput, setHighlightsInput] = useState('');
 
   const [eduFormData, setEduFormData] = useState<Omit<Education, 'id'>>({
-    degree: '', institution: '', year: '', result: '', thesis: '', advisor: ''
+    degree: '', institution: '', year: '', result: '', thesis: '', advisor: '', department: '', location: '', coursework: '', synopsis: ''
   });
 
   const onDragEndExp = async (result: DropResult) => {
@@ -129,14 +129,14 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
 
   const openEduCreate = () => {
     setEditingEduId(null);
-    setEduFormData({ degree: '', institution: '', year: '', result: '', thesis: '', advisor: '' });
+    setEduFormData({ degree: '', institution: '', year: '', result: '', thesis: '', advisor: '', department: '', location: '', coursework: '', synopsis: '' });
     setIsEduModalOpen(true);
   };
   const openEduEdit = (edu: Education) => {
     setEditingEduId(edu.id);
     setEduFormData({
       degree: edu.degree, institution: edu.institution, year: edu.year,
-      result: edu.result || '', thesis: edu.thesis || '', advisor: edu.advisor || ''
+      result: edu.result || '', thesis: edu.thesis || '', advisor: edu.advisor || '', department: edu.department || '', location: edu.location || '', coursework: edu.coursework || '', synopsis: edu.synopsis || ''
     });
     setIsEduModalOpen(true);
   };
@@ -332,11 +332,44 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
           <div className="bg-slate-800 p-6 rounded-2xl max-w-lg w-full relative">
             <button onClick={() => setIsEduModalOpen(false)} className="absolute right-4 top-4 text-slate-400 hover:text-white"><X className="w-5 h-5"/></button>
             <h3 className="text-lg font-bold text-white mb-4">Edit Education</h3>
-            <form onSubmit={handleEduSubmit} className="space-y-3">
-              <input placeholder="Degree" required value={eduFormData.degree} onChange={(e) => setEduFormData({...eduFormData, degree: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <input placeholder="Institution" required value={eduFormData.institution} onChange={(e) => setEduFormData({...eduFormData, institution: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <input placeholder="Year" required value={eduFormData.year} onChange={(e) => setEduFormData({...eduFormData, year: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <button type="submit" className="w-full p-2 bg-indigo-600 text-white rounded-lg font-semibold">Save</button>
+            <form onSubmit={handleEduSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto px-1 pb-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Degree <span className="text-red-400">*</span></label>
+                <input placeholder="e.g. Ph.D. in Engineering" required value={eduFormData.degree} onChange={(e) => setEduFormData({...eduFormData, degree: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Institution <span className="text-red-400">*</span></label>
+                <input placeholder="University Name" required value={eduFormData.institution} onChange={(e) => setEduFormData({...eduFormData, institution: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Year <span className="text-red-400">*</span></label>
+                  <input placeholder="2020 - 2024" required value={eduFormData.year} onChange={(e) => setEduFormData({...eduFormData, year: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Result</label>
+                  <input placeholder="3.9/4.0" value={eduFormData.result || ''} onChange={(e) => setEduFormData({...eduFormData, result: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+                </div>
+              </div>
+              
+              <div className="pt-2 border-t border-slate-700">
+                <label className="block text-xs font-semibold text-indigo-400 mb-1 uppercase tracking-wider">Dissertation / Thesis</label>
+                <textarea placeholder="Title and brief description of your thesis..." value={eduFormData.thesis || ''} onChange={(e) => setEduFormData({...eduFormData, thesis: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700 resize-y" rows={3}/>
+              </div>
+              
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Advisor</label>
+                <input placeholder="Prof. Name" value={eduFormData.advisor || ''} onChange={(e) => setEduFormData({...eduFormData, advisor: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Synopsis</label>
+                <textarea placeholder="Write a synopsis..." value={eduFormData.synopsis || ''} onChange={(e) => setEduFormData({...eduFormData, synopsis: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700 resize-y" rows={3}/>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Relevant Coursework</label>
+                <textarea placeholder="List relevant courses..." value={eduFormData.coursework || ''} onChange={(e) => setEduFormData({...eduFormData, coursework: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700 resize-none" rows={2}/>
+              </div>
+              <button type="submit" className="w-full p-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Save Education</button>
             </form>
           </div>
         </div>

@@ -21,7 +21,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ experience, ed
           <h2 className="text-2xl sm:text-3xl font-extrabold text-black dark:text-white tracking-tight">
             Academic Appointments & Education
           </h2>
-          <p className="text-sm text-gray-800 dark:text-slate-400">
+          <p className="text-sm text-black dark:text-slate-400 text-justify">
             Chronology of academic research appointments, university lecturing, and formal degrees.
           </p>
         </div>
@@ -61,23 +61,23 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ experience, ed
                       {exp.role}
                     </h4>
 
-                    <p className="text-xs font-semibold text-gray-900 dark:text-slate-300">
+                    <p className="text-xs font-semibold text-black dark:text-slate-300 text-justify">
                       {exp.organization}
                     </p>
 
-                    <div className="flex items-center space-x-1 text-xs text-gray-700 dark:text-slate-400">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="flex items-center space-x-1 text-xs text-black dark:text-slate-400">
+                      <MapPin className="w-3.5 h-3.5 text-black" />
                       <span>{exp.location}</span>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-gray-800 dark:text-slate-300 leading-relaxed pt-1">
+                    <p className="text-xs sm:text-sm text-black dark:text-slate-300 leading-relaxed pt-1 text-justify">
                       {exp.description}
                     </p>
 
                     {exp.highlights && exp.highlights.length > 0 && (
                       <ul className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-700/80">
                         {exp.highlights.map((item, idx) => (
-                          <li key={idx} className="flex items-start space-x-2 text-xs text-gray-800 dark:text-slate-300">
+                          <li key={idx}  className="flex items-start space-x-2 text-xs text-black dark:text-slate-300 text-justify">
                             <CheckCircle className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0 mt-0.5" />
                             <span>{item}</span>
                           </li>
@@ -112,7 +112,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ experience, ed
                         <span>{edu.year}</span>
                       </span>
                       {edu.result && (
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-slate-200">
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-black dark:text-slate-200">
                           {edu.result}
                         </span>
                       )}
@@ -122,20 +122,20 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ experience, ed
                       {edu.degree}
                     </h4>
 
-                    <p className="text-xs font-semibold text-gray-900 dark:text-slate-300">
+                    <p className="text-xs font-semibold text-black dark:text-slate-300 text-justify">
                       {edu.institution}
                     </p>
 
                     {edu.thesis && (
                       <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 space-y-1">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-black text-justify">
                           Dissertation / Thesis
                         </p>
-                        <p className="text-xs text-gray-900 dark:text-slate-300 italic">
+                        <p className="text-xs text-black dark:text-slate-300 italic text-justify">
                           "{edu.thesis}"
                         </p>
                         {edu.advisor && (
-                          <p className="text-[11px] text-gray-700 dark:text-slate-400 pt-0.5">
+                          <p className="text-[11px] text-black dark:text-slate-400 pt-0.5 text-justify">
                             <span className="font-semibold">Advisor:</span> {edu.advisor}
                           </p>
                         )}

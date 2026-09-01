@@ -37,7 +37,7 @@ export const BibtexModal: React.FC<BibtexModalProps> = ({ publication, onClose }
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-700 hover:text-black hover:bg-slate-200 transition-colors"
+            className="p-1.5 rounded-lg text-black hover:text-black hover:bg-slate-200 transition-colors"
             id="close-bibtex-modal-btn"
             title="Close"
           >
@@ -47,10 +47,10 @@ export const BibtexModal: React.FC<BibtexModalProps> = ({ publication, onClose }
 
         {/* Paper title preview */}
         <div className="px-6 pt-4">
-          <p className="text-[11px] font-mono uppercase tracking-wider text-indigo-600">
+          <p className="text-[11px] font-mono uppercase tracking-wider text-indigo-600 text-justify">
             Paper Reference
           </p>
-          <p className="mt-1 text-sm font-medium text-gray-900 line-clamp-2">
+          <p className="mt-1 text-sm font-medium text-black line-clamp-2 text-justify">
             {publication.title}
           </p>
         </div>
@@ -58,7 +58,7 @@ export const BibtexModal: React.FC<BibtexModalProps> = ({ publication, onClose }
         {/* Code Content */}
         <div className="p-6">
           <div className="relative">
-            <pre className="p-4 text-xs font-mono text-gray-900 bg-white/60 backdrop-blur-md border border-slate-200 rounded-xl overflow-x-auto max-h-64 leading-relaxed select-all">
+            <pre className="p-4 text-xs font-mono text-black bg-white/60 backdrop-blur-md border border-slate-200 rounded-xl overflow-x-auto max-h-64 leading-relaxed select-all">
               {bibtexContent}
             </pre>
             <button
@@ -66,7 +66,7 @@ export const BibtexModal: React.FC<BibtexModalProps> = ({ publication, onClose }
               className={`absolute top-3 right-3 inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                 copied
                   ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'bg-white hover:bg-slate-50 text-gray-900 border border-slate-200 shadow-sm'
+                  : 'bg-white hover:bg-slate-50 text-black border border-slate-200 shadow-sm'
               }`}
               id="copy-bibtex-btn"
             >
@@ -89,7 +89,7 @@ export const BibtexModal: React.FC<BibtexModalProps> = ({ publication, onClose }
         <div className="flex items-center justify-end px-6 py-3 border-t border-slate-200 bg-slate-50">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-mono text-gray-900 hover:text-black hover:bg-slate-200 rounded-lg transition-colors border border-slate-200 bg-white"
+            className="px-4 py-1.5 text-xs font-mono text-black hover:text-black hover:bg-slate-200 rounded-lg transition-colors border border-slate-200 bg-white"
             id="done-bibtex-modal-btn"
           >
             Close

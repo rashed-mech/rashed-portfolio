@@ -96,17 +96,17 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
                         <span className="text-sm font-bold font-sans">{displayCitations}</span>
                         <span className="text-[9px] uppercase tracking-widest font-semibold opacity-90">Citations</span>
                       </div>
-                      <span className="text-[10px] font-mono font-medium text-slate-500 mt-1.5">
+                      <span className="text-[10px] font-mono font-medium text-black mt-1.5">
                         h-index: <span className="font-bold text-indigo-600">{displayHIndex}</span>
                       </span>
                     </div>
                   )}
                 </div>
-                <div className="text-xs font-medium text-gray-900 mt-1">
+                <div className="text-xs font-medium text-black mt-1">
                   {m.label}
                 </div>
               </div>
-              <div className="text-[10px] font-mono text-gray-700 mt-3">
+              <div className="text-[10px] font-mono text-black mt-3">
                 {m.sub}
               </div>
             </div>
@@ -126,14 +126,14 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
                   <div className="w-9 h-9 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:border-indigo-300 group-hover:bg-indigo-100 transition-colors">
                     <Icon className="w-[18px] h-[18px]" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  <h3 className="text-base font-bold text-black leading-tight">
                     {pillar.title}
                   </h3>
                 </div>
-                <div className="text-[13px] font-bold text-slate-800 mb-2">
+                <div className="text-[13px] font-bold text-black mb-2">
                   {pillar.tag}
                 </div>
-                <p className="text-[13px] sm:text-sm text-slate-700 leading-relaxed">
+                <p className="text-[13px] sm:text-sm text-black leading-relaxed text-justify">
                   {pillar.description}
                 </p>
               </div>

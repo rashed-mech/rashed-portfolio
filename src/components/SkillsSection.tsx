@@ -20,7 +20,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups }) => 
           <h2 className="text-2xl sm:text-3xl font-extrabold text-black dark:text-white tracking-tight">
             Technical & Research Proficiencies
           </h2>
-          <p className="text-sm text-gray-800 dark:text-slate-400">
+          <p className="text-sm text-black dark:text-slate-400 text-justify">
             Frameworks, computational libraries, programming languages, and scientific methodologies.
           </p>
         </div>
@@ -38,7 +38,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups }) => 
                   {group.category}
                 </h3>
                 {group.description && (
-                  <p className="text-xs text-gray-700 dark:text-slate-400 mt-0.5">
+                  <p className="text-xs text-black dark:text-slate-400 mt-0.5 text-justify">
                     {group.description}
                   </p>
                 )}
@@ -52,7 +52,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups }) => 
                     className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                       skill.highlight
                         ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-semibold'
-                        : 'bg-slate-100 dark:bg-slate-700/60 text-gray-900 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60'
+                        : 'bg-slate-100 dark:bg-slate-700/60 text-black dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60'
                     }`}
                   >
                     {skill.highlight && (

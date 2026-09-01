@@ -4,6 +4,8 @@ export interface Profile {
   headline: string;
   bio: string;
   aboutText: string[];
+  researchInterests?: string[];
+  researchInterestText?: string;
   affiliation: string;
   department: string;
   email: string;
@@ -98,6 +100,7 @@ export interface Education {
   thesis?: string;
   coursework?: string;
   advisor?: string;
+  synopsis?: string;
   description?: string;
 }
 

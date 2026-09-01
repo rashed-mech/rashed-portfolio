@@ -47,11 +47,11 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ skillG
         
         {/* Section Header */}
         <div className="space-y-3 mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 font-sans">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">
             {config?.title ?? "Core Engineering & Simulation Proficiencies"}
           </h2>
           {(config?.subtitle ?? "Multi-disciplinary expertise uniting renewable techno-economic modeling, dynamic state-space simulation, thermodynamic system analysis, and edge data acquisition.") && (
-            <p className="text-sm sm:text-base text-slate-600 font-light leading-relaxed w-full max-w-full text-justify">
+            <p className="text-sm sm:text-base text-black font-light leading-relaxed w-full max-w-full text-justify">
             {config?.subtitle ?? "Multi-disciplinary expertise uniting renewable techno-economic modeling, dynamic state-space simulation, thermodynamic system analysis, and edge data acquisition."}
           </p>
           )}
@@ -64,7 +64,7 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ skillG
             className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer uppercase ${
               activeCategory === 'all'
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 border border-transparent'
-                : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                : 'bg-white text-black hover:text-black border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
             }`}
           >
             All Capabilities
@@ -76,7 +76,7 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ skillG
               className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer uppercase ${
                 activeCategory === group.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 border border-transparent'
-                  : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  : 'bg-white text-black hover:text-black border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
               {group.category.split('&')[0].trim()}
@@ -104,11 +104,11 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ skillG
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-slate-900">
+                      <h3 className="text-base font-bold text-black">
                         {group.category}
                       </h3>
                       {group.description && (
-                        <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                        <p className="text-xs text-black mt-0.5 leading-relaxed text-justify">
                           {group.description}
                         </p>
                       )}
@@ -123,7 +123,7 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ skillG
                          className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
                           skill.highlight
                             ? 'bg-blue-50 border-blue-200 text-blue-700'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
+                            : 'bg-slate-50 border-slate-200 text-black hover:bg-slate-100 hover:border-slate-300'
                         }`}
                       >
                         <span className={`w-1.5 h-1.5 rounded-full ${skill.highlight ? 'bg-blue-500' : 'bg-slate-300'}`} />
