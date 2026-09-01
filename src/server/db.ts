@@ -428,7 +428,72 @@ const INITIAL_REFERENCES: Reference[] = [
   }
 ];
 
+
+const INITIAL_PILLARS = [
+  {
+    id: 'pillar-1',
+    icon: 'Cpu',
+    title: 'Hybrid Energy Modelling',
+    tag: 'HOMER Pro · PVsyst · RETscreen',
+    description: 'Hybrid system optimization, LCOE/NPC/LCOH techno-economic analysis, load assessment, life cycle analysis (LCA), and off-grid system validation.'
+  },
+  {
+    id: 'pillar-2',
+    icon: 'Flame',
+    title: 'Hydrogen & CFD Simulation',
+    tag: 'CONVERGE 3.0 · ANSYS Fluent · SolidWorks',
+    description: 'Combustion modeling of green hydrogen vs conventional fuels in PFI SI engines, thermo-hydraulic heat exchanger modeling, and atomistic molecular dynamics.'
+  },
+  {
+    id: 'pillar-3',
+    icon: 'Wrench',
+    title: 'Electrical & Maintenance',
+    tag: 'Preventive & Corrective Diagnostics',
+    description: 'Electrical installation assessment, solar PV integration, diesel/biogas generator performance monitoring, and safety compliance in resource-constrained environments.'
+  },
+  {
+    id: 'pillar-4',
+    icon: 'Compass',
+    title: 'Fieldwork & Humanitarian Support',
+    tag: 'Remote Infrastructure · Capacity Building',
+    description: 'Hands-on fieldwork across coastal Bangladesh, technician coaching, technical documentation, and applying energy expertise for humanitarian operations (MSF).'
+  }
+];
+
+const INITIAL_METRICS = [
+  { id: 'metric-1', value: '6 Papers', label: 'Journal Publications & Research', sub: '3 Published · 2 Under Review · 1 Submitted' },
+  { id: 'metric-2', value: '3.363 / 4.00', label: 'B.Sc. Mechanical Engineering', sub: 'HSTU Dinajpur (2019–2022)' },
+  { id: 'metric-3', value: 'CSWE', label: 'SolidWorks Certified', sub: 'CAD Professional & Sheet Metal' },
+  { id: 'metric-4', value: '2 Medals', label: 'Physics & Math Olympiad', sub: 'Divisional & Regional Awards' }
+];
+
 const DEFAULT_PORTFOLIO_DATA: PortfolioData = {
+    sectionConfig: {
+    capabilities: {
+      title: "Core Engineering & Simulation Proficiencies",
+      subtitle: "Multi-disciplinary expertise uniting renewable techno-economic modeling, dynamic state-space simulation, thermodynamic system analysis, and edge data acquisition."
+    },
+    projects: {
+      title: "Undergraduate Engineering & Mechanical Design Projects",
+      subtitle: "Mechanical system design, SolidWorks CAD modeling, high gear ratio transmission kinematics, and assistive electro-mechanical solutions."
+    },
+    experience: {
+      title: "Relevant Experiences & Education",
+      subtitle: "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree."
+    },
+    publications: {
+      title: "Peer-Reviewed Journal Papers, Conference Proceedings & Preprints",
+      subtitle: "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation."
+    },
+    trainings: {
+      title: "Professional Training, Field Visits & Certifications",
+      subtitle: "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering."
+    },
+    honors: {
+      title: "Honors, Co-Curricular Leadership & Academic References",
+      subtitle: "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references."
+    }
+  },
   profile: {
     name: 'RASHEDUL ISLAM',
     title: 'Mechanical Engineer & Energy Researcher',
@@ -460,6 +525,8 @@ const DEFAULT_PORTFOLIO_DATA: PortfolioData = {
   },
   publications: INITIAL_PUBLICATIONS,
   projects: INITIAL_PROJECTS,
+  pillars: INITIAL_PILLARS,
+  metrics: INITIAL_METRICS,
   experience: INITIAL_EXPERIENCE,
   education: INITIAL_EDUCATION,
   skillGroups: INITIAL_SKILL_GROUPS,
@@ -509,7 +576,7 @@ export class PortfolioDatabase {
     return {
       ...DEFAULT_PORTFOLIO_DATA,
       ...parsed,
-      profile: {
+  profile: {
         ...DEFAULT_PORTFOLIO_DATA.profile,
         ...(parsed.profile || {}),
         stats: {
@@ -522,6 +589,8 @@ export class PortfolioDatabase {
         }
       },
       publications: Array.isArray(parsed.publications) ? parsed.publications : DEFAULT_PORTFOLIO_DATA.publications,
+      pillars: Array.isArray(parsed.pillars) ? parsed.pillars : DEFAULT_PORTFOLIO_DATA.pillars,
+      metrics: Array.isArray(parsed.metrics) ? parsed.metrics : DEFAULT_PORTFOLIO_DATA.metrics,
       projects: Array.isArray(parsed.projects) ? parsed.projects : DEFAULT_PORTFOLIO_DATA.projects,
       experience: Array.isArray(parsed.experience) ? parsed.experience : DEFAULT_PORTFOLIO_DATA.experience,
       education: Array.isArray(parsed.education) ? parsed.education : DEFAULT_PORTFOLIO_DATA.education,
@@ -533,6 +602,7 @@ export class PortfolioDatabase {
       volunteerWork: Array.isArray(parsed.volunteerWork) ? parsed.volunteerWork : DEFAULT_PORTFOLIO_DATA.volunteerWork,
       references: Array.isArray(parsed.references) ? parsed.references : DEFAULT_PORTFOLIO_DATA.references,
       messages: Array.isArray(parsed.messages) ? parsed.messages : DEFAULT_PORTFOLIO_DATA.messages,
+            sectionConfig: parsed.sectionConfig || DEFAULT_PORTFOLIO_DATA.sectionConfig,
       adminConfig: parsed.adminConfig || DEFAULT_PORTFOLIO_DATA.adminConfig
     };
   }
@@ -599,6 +669,13 @@ export class PortfolioDatabase {
   public verifyAdmin(username: string, passwordAttempt: string): boolean {
     const config = this.getAdminConfig();
     return config.username === username && config.passwordHashOrPlain === passwordAttempt;
+  }
+
+
+  public updateSectionConfig(sectionConfig: any) {
+    this.data.sectionConfig = sectionConfig;
+    this.sync();
+    return this.data.sectionConfig;
   }
 
   public updateAdminCredentials(username: string, passwordHashOrPlain: string) {
@@ -1002,6 +1079,18 @@ export class PortfolioDatabase {
   }
 
   // --- Skills Operations ---
+
+  public updatePillars(pillars: any[]) {
+    this.data.pillars = pillars;
+    this.sync();
+    return this.data.pillars;
+  }
+
+  public updateMetrics(metrics: any[]) {
+    this.data.metrics = metrics;
+    this.sync();
+    return this.data.metrics;
+  }
   public updateSkillGroups(groups: SkillGroup[]): SkillGroup[] {
     this.data.skillGroups = groups.map((g, idx) => ({
       ...g,

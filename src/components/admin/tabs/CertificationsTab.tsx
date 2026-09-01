@@ -195,7 +195,7 @@ export const CertificationsTab: React.FC<CertificationsTabProps> = ({
               {localCerts.map((cert, index) => {
                 return (
                   // @ts-ignore
-                  <Draggable draggableId={cert.id} index={index}>
+                  <Draggable key={cert.id} draggableId={cert.id} index={index}>
                     {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}

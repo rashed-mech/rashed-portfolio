@@ -12,13 +12,15 @@ import {
 import { Experience, Education } from '../types';
 
 interface ExperienceSectionProps {
+  config?: { title: string; subtitle: string };
   experience: Experience[];
   education: Education[];
 }
 
 export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   experience,
-  education
+  education,
+  config
 }) => {
   return (
     <section className="py-12 sm:py-16 border-t border-slate-200" id="experience">
@@ -33,12 +35,10 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         {/* Section Header */}
         <div className="space-y-3 mb-10 sm:mb-12">
           
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">
-            Relevant Experiences & Education
-          </h2>
-          <p className="text-sm sm:text-base text-gray-800 font-light max-w-2xl leading-relaxed">
-            Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree.
-          </p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Relevant Experiences & Education"}</h2>
+          {(config?.subtitle ?? "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree.") && (
+            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Hands-on technical appointments, mechanical systems optimization, field coaching, and mechanical engineering degree."}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

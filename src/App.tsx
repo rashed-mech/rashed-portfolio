@@ -222,12 +222,12 @@ export function App() {
       {/* Main Content Sections */}
       <main className="space-y-0">
         <Hero profile={data.profile} data={data} />
-        <OverviewSection profile={data.profile} />
-        <CapabilitiesSection skillGroups={data.skillGroups} />
-        <ProjectsSection projects={data.projects} />
-        <ExperienceSection experience={data.experience} education={data.education} />
-        <PublicationsSection publications={data.publications} scholarUrl={data.profile.social.scholar} />
-        <TrainingSection trainings={data.trainings} certifications={data.certifications} />
+        <OverviewSection profile={data.profile} data={data} />
+        <CapabilitiesSection skillGroups={data.skillGroups} config={data.sectionConfig?.capabilities} />
+        <ProjectsSection projects={data.projects} config={data.sectionConfig?.projects} />
+        <ExperienceSection experience={data.experience} education={data.education} config={data.sectionConfig?.experience} />
+        <PublicationsSection publications={data.publications} scholarUrl={data.profile.social.scholar} config={data.sectionConfig?.publications} />
+        <TrainingSection trainings={data.trainings} certifications={data.certifications} config={data.sectionConfig?.trainings} />
         <HonorsAndActivitiesSection 
           achievements={data.achievements} 
           affiliations={data.affiliations} 

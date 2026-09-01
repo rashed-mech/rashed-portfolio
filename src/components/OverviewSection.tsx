@@ -10,14 +10,15 @@ import {
   Award,
   BookOpen
 } from 'lucide-react';
-import { Profile } from '../types';
+import { Profile, PortfolioData } from '../types';
 import { useLiveScholarStats } from '../hooks/useLiveScholarStats';
 
 interface OverviewSectionProps {
   profile: Profile;
+  data?: PortfolioData;
 }
 
-export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => {
+export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data }) => {
   // Live Google Scholar stats — shared hook, same source of truth used by
   // the admin dashboard and Researcher Profile tab. `profile.stats` (the
   // last value saved in the database) is only used as a fallback if the
@@ -27,7 +28,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => 
     { citations: profile.stats?.citations ?? 0, hIndex: profile.stats?.hIndex ?? 0 }
   );
 
-  const pillars = [
+  const fallbackPillars = [
     {
       icon: Cpu,
       title: 'Hybrid Energy Modelling',
@@ -53,13 +54,19 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => 
       description: 'Hands-on fieldwork across coastal Bangladesh, technician coaching, technical documentation, and applying energy expertise for humanitarian operations (MSF).'
     }
   ];
-
-  const metrics = [
+  
+  const fallbackMetrics = [
     { value: '6 Papers', label: 'Journal Publications & Research', sub: '3 Published · 2 Under Review · 1 Submitted' },
     { value: '3.363 / 4.00', label: 'B.Sc. Mechanical Engineering', sub: 'HSTU Dinajpur (2019–2022)' },
     { value: 'CSWE', label: 'SolidWorks Certified', sub: 'CAD Professional & Sheet Metal' },
     { value: '2 Medals', label: 'Physics & Math Olympiad', sub: 'Divisional & Regional Awards' }
   ];
+
+  const iconMap: Record<string, any> = { Cpu, Flame, Wrench, Compass, MapPin, ShieldCheck, Award, BookOpen };
+  
+  const pillars = data?.pillars?.length ? data.pillars.map(p => ({...p, icon: iconMap[p.icon as string] || Cpu})) : fallbackPillars;
+  const metrics = data?.metrics?.length ? data.metrics : fallbackMetrics;
+
 
   return (
     <section className="pt-4 sm:pt-8 pb-12 sm:pb-16" id="overview">
@@ -113,22 +120,22 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile }) => 
             return (
               <div 
                 key={idx}
-                className="p-5 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex flex-col justify-between group shadow-sm shadow-slate-200/50"
+                className="p-4 sm:p-5 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex flex-col group shadow-sm shadow-slate-200/50"
               >
-                <div>
-                  <div className="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-4 group-hover:border-indigo-300 group-hover:bg-indigo-100 transition-colors">
-                    <Icon className="w-5 h-5" />
+                <div className="flex items-center gap-3 mb-2.5">
+                  <div className="w-9 h-9 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:border-indigo-300 group-hover:bg-indigo-100 transition-colors">
+                    <Icon className="w-[18px] h-[18px]" />
                   </div>
-                  <h3 className="text-sm font-semibold text-black tracking-tight mb-1">
+                  <h3 className="text-base font-bold text-slate-900 leading-tight">
                     {pillar.title}
                   </h3>
-                  <div className="text-[11px] font-mono text-indigo-600 mb-2.5">
-                    {pillar.tag}
-                  </div>
-                  <p className="text-xs text-gray-800 font-light leading-relaxed">
-                    {pillar.description}
-                  </p>
                 </div>
+                <div className="text-[13px] font-bold text-slate-800 mb-2">
+                  {pillar.tag}
+                </div>
+                <p className="text-[13px] sm:text-sm text-slate-700 leading-relaxed">
+                  {pillar.description}
+                </p>
               </div>
             );
           })}

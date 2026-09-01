@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { 
   BookOpen, 
@@ -20,6 +21,7 @@ import { createPublicationAPI, updatePublicationAPI, deletePublicationAPI } from
 import { AutoImportPublicationsModal } from './AutoImportPublicationsModal';
 
 interface PublicationsTabProps {
+  data?: any;
   publications: Publication[];
   profile?: Profile;
   onRefresh: () => void;
@@ -42,7 +44,7 @@ const EMPTY_PUB: Omit<Publication, 'id'> = {
   bibtex: ''
 };
 
-export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, profile, onRefresh, showToast }) => {
+export const PublicationsTab: React.FC<PublicationsTabProps> = ({ data, publications, profile, onRefresh, showToast }) => {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   
@@ -228,6 +230,7 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ publications, 
 
   return (
     <div className="space-y-6 animate-fadeIn" id="admin-publications-tab">
+      <SectionHeadingEditor sectionKey="publications" data={data} onRefresh={onRefresh} showToast={showToast} />
       
       {/* Top action row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

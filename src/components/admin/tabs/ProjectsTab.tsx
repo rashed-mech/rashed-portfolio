@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { GripVertical } from 'lucide-react';
@@ -6,6 +7,7 @@ import { Project } from '../../../types';
 import { createProjectAPI, updateProjectAPI, deleteProjectAPI, reorderProjectsAPI } from '../../../api';
 
 interface ProjectsTabProps {
+  data?: any;
   projects: Project[];
   onRefresh: () => void;
   showToast: (msg: string, type?: 'success' | 'error') => void;
@@ -17,13 +19,15 @@ const EMPTY_PROJ: Omit<Project, 'id'> = {
   description: '',
   fullDescription: '',
   technologies: [],
+  imageUrl: '',
+  images: [],
   githubUrl: '',
   liveUrl: '',
   featured: false,
   date: ''
 };
 
-export const ProjectsTab: React.FC<ProjectsTabProps> = ({ projects, onRefresh, showToast }) => {
+export const ProjectsTab: React.FC<ProjectsTabProps> = ({ data, projects, onRefresh, showToast }) => {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -127,6 +131,7 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({ projects, onRefresh, s
 
   return (
     <div className="space-y-6 animate-fadeIn" id="admin-projects-tab">
+      <SectionHeadingEditor sectionKey="projects" data={data} onRefresh={onRefresh} showToast={showToast} />
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -170,7 +175,8 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({ projects, onRefresh, s
           {(provided) => (
             <div className="space-y-4" {...provided.droppableProps} ref={provided.innerRef}>
               {filtered.map((proj, index) => (
-                <Draggable draggableId={proj.id} index={index}>
+                // @ts-ignore
+                <Draggable key={proj.id} draggableId={proj.id} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
@@ -338,6 +344,31 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({ projects, onRefresh, s
                 />
               </div>
 
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Main Image URL
+                </label>
+                <input
+                  type="text"
+                  value={formData.imageUrl || ''}
+                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                  placeholder="https://..."
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Additional Image URLs (one per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={formData.images?.join('\n') || ''}
+                  onChange={(e) => setFormData({ ...formData, images: e.target.value.split('\n').filter(url => url.trim() !== '') })}
+                  placeholder="https://...\nhttps://..."
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white resize-y"
+                />
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">

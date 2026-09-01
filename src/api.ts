@@ -492,3 +492,43 @@ export async function reorderProjectsAPI(orderedIds: string[]): Promise<Project[
   if (!json.success) throw new Error(json.message || 'Failed to reorder');
   return json.data;
 }
+
+// Admin Overview API
+export async function updatePillarsAPI(pillars: any[]): Promise<any[]> {
+  const res = await authFetch(`${API_BASE}/admin/pillars`, {
+    method: 'PUT',
+    body: JSON.stringify({ pillars })
+  });
+  const json = await res.json();
+  if (!json.success) throw new Error(json.message || 'Failed to update pillars');
+  return json.data;
+}
+
+export async function updateMetricsAPI(metrics: any[]): Promise<any[]> {
+  const res = await authFetch(`${API_BASE}/admin/metrics`, {
+    method: 'PUT',
+    body: JSON.stringify({ metrics })
+  });
+  const json = await res.json();
+  if (!json.success) throw new Error(json.message || 'Failed to update metrics');
+  return json.data;
+}
+
+export async function updateSectionConfigAPI(sectionConfig: any): Promise<void> {
+  const res = await authFetch(`${API_BASE}/admin/section-config`, {
+    method: 'POST',
+    body: JSON.stringify({ sectionConfig })
+  });
+  
+  const text = await res.text();
+  let json;
+  try {
+    json = text ? JSON.parse(text) : {};
+  } catch (e) {
+    throw new Error(`Server returned invalid response: ${text.substring(0, 50)}`);
+  }
+  
+  if (!res.ok || (json && json.success === false)) {
+    throw new Error(json.message || json.error || 'Failed to update section config');
+  }
+}

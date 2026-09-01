@@ -661,6 +661,18 @@ app.put('/api/admin/trainings/reorder', verifyAuth, (req, res) => {
     }
   });
 
+
+  app.post('/api/admin/section-config', verifyAuth, (req: Request, res: Response) => {
+    try {
+      const { sectionConfig } = req.body;
+      db.updateSectionConfig(sectionConfig);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error updating section config:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
+
   app.post('/api/admin/trainings', verifyAuth, (req: Request, res: Response) => {
     try {
       const { title, issuer, year } = req.body;
@@ -698,6 +710,27 @@ app.put('/api/admin/trainings/reorder', verifyAuth, (req, res) => {
     }
   });
 
+
+  // Overview Updates
+  app.put('/api/admin/pillars', verifyAuth, (req: Request, res: Response) => {
+    try {
+      const { pillars } = req.body;
+      const updated = db.updatePillars(pillars || []);
+      res.json({ success: true, data: updated, message: 'Pillars updated successfully.' });
+    } catch (err: any) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  app.put('/api/admin/metrics', verifyAuth, (req: Request, res: Response) => {
+    try {
+      const { metrics } = req.body;
+      const updated = db.updateMetrics(metrics || []);
+      res.json({ success: true, data: updated, message: 'Metrics updated successfully.' });
+    } catch (err: any) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  });
   // Skills Group Update
   app.put('/api/admin/skills', verifyAuth, (req: Request, res: Response) => {
     try {

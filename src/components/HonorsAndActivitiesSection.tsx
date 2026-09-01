@@ -15,6 +15,7 @@ import {
 import { Achievement, Affiliation, VolunteerExperience, Reference } from '../types';
 
 interface HonorsAndActivitiesSectionProps {
+  config?: { title: string; subtitle: string };
   achievements?: Achievement[];
   affiliations?: Affiliation[];
   volunteerWork?: VolunteerExperience[];
@@ -25,7 +26,8 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
   achievements = [],
   affiliations = [],
   volunteerWork = [],
-  references = []
+  references = [],
+  config
 }) => {
   return (
     <section className="py-12 sm:py-16 border-t border-slate-200" id="honors-activities">
@@ -33,12 +35,10 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
         
         {/* Section Header */}
         <div className="space-y-3">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">
-            Honors, Co-Curricular Leadership & Academic References
-          </h2>
-          <p className="text-sm sm:text-base text-gray-800 font-light max-w-2xl leading-relaxed">
-            Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references.
-          </p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Honors, Co-Curricular Leadership & Academic References"}</h2>
+          {(config?.subtitle ?? "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references.") && (
+            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Competitive olympiad awards, university organization leadership, disaster relief volunteering, and academic thesis references."}</p>
+          )}
         </div>
 
         <div className="space-y-8">

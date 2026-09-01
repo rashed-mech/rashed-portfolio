@@ -13,6 +13,7 @@ import { Training, Certification } from '../types';
 import { formatImageUrl } from '../utils/formatUrl';
 
 interface TrainingSectionProps {
+  config?: { title: string; subtitle: string };
   trainings?: Training[];
   certifications?: Certification[];
 }
@@ -147,10 +148,7 @@ const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Ce
   );
 };
 
-export const TrainingSection: React.FC<TrainingSectionProps> = ({ 
-  trainings = [],
-  certifications = [] 
-}) => {
+export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = [], certifications = [], config }) => {
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
   const [selectedSlideIdx, setSelectedSlideIdx] = useState<number>(0);
   
@@ -173,12 +171,10 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({
         {/* Section Header */}
         <div className="space-y-3 mb-10 sm:mb-12">
           
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">
-            Professional Training, Field Visits & Certifications
-          </h2>
-          <p className="text-sm sm:text-base text-gray-800 font-light max-w-2xl leading-relaxed">
-            Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering.
-          </p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Professional Training, Field Visits & Certifications"}</h2>
+          {(config?.subtitle ?? "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering.") && (
+            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Industrial workshops, power plant field visits, and internationally accredited certifications in energy, materials science, CAD, and quality engineering."}</p>
+          )}
         </div>
 
         {/* Subsection 1: Professional Training & Field Visits */}
@@ -255,7 +251,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({
           onClick={() => setSelectedCert(null)}
         >
           <div 
-            className="bg-white rounded-2xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl relative flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200"
+            className="bg-white rounded-2xl max-w-6xl w-full p-6 sm:p-8 shadow-2xl relative flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200"
             onClick={e => e.stopPropagation()}
           >
             <button 
@@ -306,7 +302,9 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({
                   key={currentModalObj.imageUrl}
                   src={formatImageUrl(currentModalObj.imageUrl)} 
                   alt={currentModalObj.title} 
-                  className="w-full h-full object-contain p-2 animate-in fade-in duration-300"
+                  className="w-full h-full object-contain p-2 animate-in fade-in duration-300 cursor-pointer hover:opacity-90 transition-opacity"
+                  title="Click to view full size in new tab"
+                  onClick={() => window.open(formatImageUrl(currentModalObj.imageUrl), '_blank')}
                 />
               ) : (
                 <div className="py-20 flex flex-col items-center justify-center text-slate-400 space-y-3">

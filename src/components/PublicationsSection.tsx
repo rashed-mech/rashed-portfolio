@@ -20,11 +20,12 @@ import { Publication } from '../types';
 import { BibtexModal } from './BibtexModal';
 
 interface PublicationsSectionProps {
+  config?: { title: string; subtitle: string };
   publications: Publication[];
   scholarUrl?: string;
 }
 
-export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ publications, scholarUrl }) => {
+export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ publications, scholarUrl, config }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'latest' | 'citations' | 'journal_first' | 'oldest'>('latest');
@@ -220,12 +221,10 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
         {/* Section Header */}
         <div className="space-y-3 mb-10 sm:mb-12">
           
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">
-            Peer-Reviewed Journal Papers, Conference Proceedings & Preprints
-          </h2>
-          <p className="text-sm sm:text-base text-gray-800 font-light max-w-3xl leading-relaxed">
-            Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation.
-          </p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black font-sans">{config?.title ?? "Peer-Reviewed Journal Papers, Conference Proceedings & Preprints"}</h2>
+          {(config?.subtitle ?? "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation.") && (
+            <p className="text-sm sm:text-base text-gray-800 font-light leading-relaxed w-full max-w-full text-justify ">{config?.subtitle ?? "Scholarly articles published in international journals and conferences covering hybrid microgrid optimization, machine learning diagnostics, solar PV soiling, and battery degradation."}</p>
+          )}
         </div>
 
         {/* Filter, Sort & Search Control Bar */}

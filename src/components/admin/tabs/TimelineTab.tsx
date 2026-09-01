@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Briefcase, GraduationCap, Plus, Edit3, Trash2, X, GripVertical } from 'lucide-react';
@@ -8,14 +9,14 @@ import {
 } from '../../../api';
 
 interface TimelineTabProps {
+  data?: any;
   experience?: Experience[];
   education?: Education[];
   onRefresh: () => void;
   showToast: (msg: string, type?: 'success' | 'error') => void;
 }
 
-export const TimelineTab: React.FC<TimelineTabProps> = ({
-  experience = [],
+export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
   education = [],
   onRefresh,
   showToast
@@ -170,6 +171,7 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn" id="admin-timeline-tab">
+      <SectionHeadingEditor sectionKey="experience" data={data} onRefresh={onRefresh} showToast={showToast} />
       <div className="flex space-x-2 border-b border-slate-700 pb-2">
         <button
           onClick={() => setSubTab('experience')}
@@ -206,7 +208,8 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({
               {(provided) => (
                 <div className="space-y-3" {...provided.droppableProps} ref={provided.innerRef}>
                   {experience.map((exp, index) => (
-                    <Draggable draggableId={exp.id} index={index}>
+                    // @ts-ignore
+                    <Draggable key={exp.id} draggableId={exp.id} index={index}>
                       {(provided) => (
                         <div
                           ref={provided.innerRef}
@@ -267,7 +270,8 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({
               {(provided) => (
                 <div className="space-y-3" {...provided.droppableProps} ref={provided.innerRef}>
                   {education.map((edu, index) => (
-                    <Draggable draggableId={edu.id} index={index}>
+                    // @ts-ignore
+                    <Draggable key={edu.id} draggableId={edu.id} index={index}>
                       {(provided) => (
                         <div
                           ref={provided.innerRef}

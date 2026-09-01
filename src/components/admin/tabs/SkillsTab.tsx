@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { Terminal, Plus, Trash2, Save, X, GripVertical } from 'lucide-react';
 import { SkillGroup, SkillItem } from '../../../types';
@@ -5,6 +6,7 @@ import { updateSkillsAPI } from '../../../api';
 import { Reorder, useDragControls } from 'motion/react';
 
 interface SkillsTabProps {
+  data?: any;
   skillGroups: SkillGroup[];
   onRefresh: () => void;
   showToast: (msg: string, type?: 'success' | 'error') => void;
@@ -141,7 +143,7 @@ const GroupRow = ({ group, gIdx, handleUpdateGroupTitle, handleAddSkillToGroup, 
   );
 };
 
-export const SkillsTab: React.FC<SkillsTabProps> = ({ skillGroups, onRefresh, showToast }) => {
+export const SkillsTab: React.FC<SkillsTabProps> = ({ data, skillGroups, onRefresh, showToast }) => {
   const [groups, setGroups] = useState<SkillGroup[]>(() => {
     const parsed = JSON.parse(JSON.stringify(skillGroups));
     return parsed.map((g: any) => ({
@@ -236,6 +238,7 @@ export const SkillsTab: React.FC<SkillsTabProps> = ({ skillGroups, onRefresh, sh
 
   return (
     <div className="space-y-6 animate-fadeIn" id="admin-skills-tab">
+      <SectionHeadingEditor sectionKey="capabilities" data={data} onRefresh={onRefresh} showToast={showToast} />
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

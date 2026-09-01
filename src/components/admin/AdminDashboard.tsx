@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { 
+  Type,
   LayoutDashboard, 
   BookOpen, 
   Code, 
@@ -17,11 +18,12 @@ import {
   ShieldCheck,
   Moon,
   Sun,
-  Award
+  Award, Sparkles
 } from 'lucide-react';
 import { PortfolioData } from '../../types';
 import { logoutAdmin } from '../../api';
 import { OverviewTab } from './tabs/OverviewTab';
+import { HighlightsTab } from './tabs/HighlightsTab';
 import { PublicationsTab } from './tabs/PublicationsTab';
 import { ProjectsTab } from './tabs/ProjectsTab';
 import { ProfileTab } from './tabs/ProfileTab';
@@ -71,7 +73,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     { id: 'publications', label: 'Publications', icon: BookOpen, count: data.publications.length },
     { id: 'projects', label: 'Projects', icon: Code, count: data.projects.length },
     { id: 'profile', label: 'Researcher Profile', icon: User },
-    { id: 'timeline', label: 'Experience & Edu', icon: Briefcase },
+    { id: 'highlights', label: 'Highlights & Metrics', icon: Sparkles },
+        { id: 'timeline', label: 'Experience & Edu', icon: Briefcase },
     { id: 'skills', label: 'Skills & Tools', icon: Terminal },
     { id: 'trainings', label: 'Trainings', icon: Award, count: (data.trainings || []).length },
     { id: 'certifications', label: 'Certifications', icon: Award, count: (data.certifications || []).length },
@@ -229,7 +232,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {activeTab === 'publications' && (
           <PublicationsTab
-            publications={data.publications}
+            data={data} publications={data.publications}
             profile={data.profile}
             onRefresh={onRefresh}
             showToast={showToast}
@@ -238,7 +241,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {activeTab === 'projects' && (
           <ProjectsTab
-            projects={data.projects}
+            data={data} projects={data.projects}
             onRefresh={onRefresh}
             showToast={showToast}
           />
@@ -252,9 +255,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           />
         )}
 
+                        {activeTab === 'highlights' && (
+          <HighlightsTab
+            data={data}
+            onRefresh={onRefresh}
+            showToast={showToast}
+          />
+        )}
         {activeTab === 'timeline' && (
           <TimelineTab
-            experience={data.experience}
+            data={data} experience={data.experience}
             education={data.education}
             onRefresh={onRefresh}
             showToast={showToast}
@@ -263,7 +273,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {activeTab === 'skills' && (
           <SkillsTab
-            skillGroups={data.skillGroups}
+            data={data} skillGroups={data.skillGroups}
             onRefresh={onRefresh}
             showToast={showToast}
           />
@@ -271,7 +281,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {activeTab === 'trainings' && (
           <TrainingsTab
-            trainings={data.trainings}
+            data={data} trainings={data.trainings}
             onRefresh={onRefresh}
             showToast={showToast}
           />
@@ -295,7 +305,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {activeTab === 'honors' && (
           <HonorsTab
-            references={data.references || []}
+            data={data} references={data.references || []}
             volunteerWork={data.volunteerWork || []}
             achievements={data.achievements || []}
             affiliations={data.affiliations || []}

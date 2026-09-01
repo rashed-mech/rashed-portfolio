@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { GripVertical, Award, Plus, Edit3, Trash2, X, ExternalLink } from 'lucide-react';
@@ -5,13 +6,13 @@ import { Training } from '../../../types';
 import { createTrainingAPI, updateTrainingAPI, deleteTrainingAPI, reorderTrainingsAPI } from '../../../api';
 
 interface TrainingsTabProps {
+  data?: any;
   trainings?: Training[];
   onRefresh: () => void;
   showToast: (msg: string, type?: 'success' | 'error') => void;
 }
 
-export const TrainingsTab: React.FC<TrainingsTabProps> = ({
-  trainings = [],
+export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = [],
   onRefresh,
   showToast
 }) => {
@@ -130,6 +131,7 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn" id="admin-trainings-tab">
+      <SectionHeadingEditor sectionKey="trainings" data={data} onRefresh={onRefresh} showToast={showToast} />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -153,7 +155,8 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({
           {(provided) => (
             <div className="space-y-4" {...provided.droppableProps} ref={provided.innerRef}>
               {trainings.map((tr, index) => (
-                <Draggable draggableId={tr.id} index={index}>
+                // @ts-ignore
+                <Draggable key={tr.id} draggableId={tr.id} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}

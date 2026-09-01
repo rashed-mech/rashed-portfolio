@@ -1,3 +1,4 @@
+import { SectionHeadingEditor } from '../SectionHeadingEditor';
 import React, { useState } from 'react';
 import { Award, Plus, Edit3, Trash2, X, Link, Mail, Phone, MapPin, Building } from 'lucide-react';
 import { Reference, VolunteerEngagement, Achievement, Affiliation } from '../../../types';
@@ -9,6 +10,7 @@ import {
 } from '../../../api';
 
 interface HonorsTabProps {
+  data?: any;
   references: Reference[];
   volunteerWork: VolunteerEngagement[];
   achievements: Achievement[];
@@ -17,8 +19,7 @@ interface HonorsTabProps {
   showToast: (msg: string, type?: 'success' | 'error') => void;
 }
 
-export const HonorsTab: React.FC<HonorsTabProps> = ({
-  references,
+export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
   volunteerWork,
   achievements,
   affiliations,
@@ -100,6 +101,7 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({
 
   return (
     <div className="space-y-6">
+      <SectionHeadingEditor sectionKey="honors" data={data} onRefresh={onRefresh} showToast={showToast} />
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex space-x-2 bg-slate-900/50 p-1 rounded-xl overflow-x-auto w-full sm:w-auto border border-slate-700/50">

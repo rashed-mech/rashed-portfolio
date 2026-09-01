@@ -70,6 +70,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   imageUrl?: string;
+  images?: string[];
   featured?: boolean;
   date?: string;
 }
@@ -146,6 +147,7 @@ export type VolunteerExperience = VolunteerEngagement;
 export interface CertificateModule {
   title: string;
   imageUrl?: string;
+  images?: string[];
   credentialUrl?: string;
 }
 
@@ -156,6 +158,7 @@ export interface Certification {
   year: string;
   modules?: CertificateModule[];
   imageUrl?: string;
+  images?: string[];
   credentialUrl?: string;
   description?: string;
 }
@@ -200,8 +203,37 @@ export interface Training {
   description?: string;
 }
 
+
+export interface CorePillar {
+  id: string;
+  icon: string;
+  title: string;
+  tag: string;
+  description: string;
+}
+
+export interface CoreMetric {
+  id: string;
+  value: string;
+  label: string;
+  sub: string;
+}
+
+
+export interface SectionConfig {
+  capabilities: { title: string; subtitle: string };
+  projects: { title: string; subtitle: string };
+  experience: { title: string; subtitle: string };
+  publications: { title: string; subtitle: string };
+  trainings: { title: string; subtitle: string };
+  honors: { title: string; subtitle: string };
+}
+
 export interface PortfolioData {
   profile: Profile;
+  sectionConfig?: SectionConfig;
+  pillars?: CorePillar[];
+  metrics?: CoreMetric[];
   publications: Publication[];
   projects: Project[];
   experience: Experience[];
