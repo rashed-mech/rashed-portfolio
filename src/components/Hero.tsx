@@ -277,7 +277,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, data }) => {
           className="w-full text-center lg:text-left mb-6"
         >
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-black font-sans">
-            Mechanical Engineering, Renewable Energy Systems & Field Analysis
+            {profile.headline || "Mechanical Engineering, Renewable Energy Systems & Field Analysis"}
           </h2>
         </motion.div>
 

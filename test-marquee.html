@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.ticker-wrap {
+  width: 300px;
+  overflow: hidden;
+  background-color: #E2E8F0; 
+  border-radius: 4px;
+}
+.ticker {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: ticker 5s linear infinite;
+}
+@keyframes ticker {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+</style>
+</head>
+<body>
+<div class="ticker-wrap">
+  <div class="ticker">This is a long description that crawls like live news.</div>
+</div>
+</body>
+</html>

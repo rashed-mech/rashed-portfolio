@@ -2,7 +2,7 @@
   "profile": {
     "name": "RASHEDUL ISLAM",
     "title": "Mechanical Engineer & Energy Researcher",
-    "headline": "Renewable Energy Systems • Hybrid Energy Modelling • Off-Grid Infrastructure",
+    "headline": "Mechanical Engineering, Renewable Energy Systems & Field Analysis",
     "bio": "Mechanical engineer and energy researcher with expertise in renewable energy systems, hybrid energy modelling (HOMER Pro, PVsyst, RETscreen), and field-based energy analysis. Experienced in electrical system assessment, solar PV integration, generator performance monitoring, and energy efficiency optimization. Proven ability to design, validate, and document energy systems for off-grid and resource-constrained environments. Published researcher with hands-on fieldwork in remote energy infrastructure in coastal Bangladesh. Seeking to apply technical energy expertise in support of MSF humanitarian operations in Bangladesh.",
     "aboutText": [
       "Mechanical engineer and energy researcher with expertise in renewable energy systems, hybrid energy modelling (HOMER Pro, PVsyst, RETscreen), and field-based energy analysis.",
@@ -181,7 +181,7 @@
       "role": "Mechanical Engineering Intern",
       "organization": "Placid Bangladesh (Intern)",
       "location": "Dhaka, Bangladesh",
-      "period": "Jan 2025 – May 2025",
+      "period": "Jan 2025 \u2013 May 2025",
       "description": "Mechanical systems assessment, product optimization, and maintenance operations.",
       "highlights": [
         "Assessed mechanical systems and completed product optimization resulting in reduced material waste and improved operational efficiency.",
@@ -195,7 +195,7 @@
       "role": "Assistant Teacher",
       "organization": "Advance Coaching Center",
       "location": "Dinajpur, Bangladesh",
-      "period": "Oct 2022 – Dec 2023",
+      "period": "Oct 2022 \u2013 Dec 2023",
       "description": "Delivered technical instruction and coaching for diverse student groups.",
       "highlights": [
         "Delivered technical instruction and adapted training approaches to diverse learner needs- building foundational capacity-building and coaching skills applicable to field technician training."
@@ -209,7 +209,7 @@
       "degree": "B.Sc. in Mechanical Engineering",
       "institution": "Hajee Mohammad Danesh Science & Technology University (HSTU)",
       "location": "Dinajpur, Bangladesh",
-      "year": "Jan 2019 – Dec 2022",
+      "year": "Jan 2019 \u2013 Dec 2022",
       "result": "CGPA: 3.363 / 4.00",
       "thesis": "Investigate the Performance of Hydrogen Fuel and Compare with Conventional Fuels in Port Fuel Injection SI Engine using CONVERGE CFD. (One Q1 Journal was Published- Next Energy, 2025)",
       "coursework": "Power Plant Engineering, Thermodynamics, Fluid Mechanics, Electrical Machines, Engineering Design, Heat Transfer, Renewable Energy Systems."
@@ -397,21 +397,33 @@
       "title": "28 days of Mechanical Workshop",
       "issuer": "Technical Institute of Chemical Industries, Bangladesh (TICI)",
       "year": "2023",
-      "description": "Participated in scheduled training sessions on numerous methods of mechanical workshop, working procedure, and visited power plants including the Ashulia Gas Powerplant, Narsingdi; Bangladesh."
+      "description": "Participated in scheduled training sessions on numerous methods of mechanical workshop, working procedure, and visited power plants including the Ashulia Gas Powerplant, Narsingdi; Bangladesh.",
+      "galleryUrls": [
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": "tr-2",
       "title": "2 days training and workshop visit on Production Process of Machineries in Saidpur Railway Workshop",
       "issuer": "Saidpur Railway Workshop / Ansys Experts",
       "year": "2019",
-      "description": "Participated in all scheduled training sessions and lab works conducted by Ansys experts, gaining hands-on experience with workshop projects focused on turbulence and combustion in Ansys Fluent and CFX."
+      "description": "Participated in all scheduled training sessions and lab works conducted by Ansys experts, gaining hands-on experience with workshop projects focused on turbulence and combustion in Ansys Fluent and CFX.",
+      "galleryUrls": [
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": "tr-3",
       "title": "Field visit: Wind Turbine Power Plant, Cox's Bazar",
       "issuer": "Cox's Bazar Wind Power Project",
       "year": "2024",
-      "description": "Operational energy data collection for off-grid hybrid energy research."
+      "description": "Operational energy data collection for off-grid hybrid energy research.",
+      "galleryUrls": [
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=1200"
+      ]
     }
   ],
   "certifications": [
@@ -504,7 +516,7 @@
   "affiliations": [
     {
       "id": "aff-1",
-      "organization": "Cox’s Bazar Youth Development Society (CYDS)",
+      "organization": "Cox\u2019s Bazar Youth Development Society (CYDS)",
       "role": "Executive Member",
       "period": "2024 - 2025"
     },
@@ -528,19 +540,19 @@
       "id": "vol-1",
       "title": "Robo-riot Contest Event Organizer, Deceleration - A National Mechanical Festival",
       "description": "Organized and conducted two segments of the national inter-university mechanical festival at HSTU",
-      "period": "2022 – 2023"
+      "period": "2022 \u2013 2023"
     },
     {
       "id": "vol-2",
       "title": "Autodesk Ambassador Hub",
       "description": "Shared news about Autodesk products, events, and completed challenges on social media platforms",
-      "period": "2019 – 2021"
+      "period": "2019 \u2013 2021"
     },
     {
       "id": "vol-3",
       "title": "Adjunct Teacher, Cox's Bazar Govt. High School",
       "description": "Conducted weekly classes for junior categories",
-      "period": "2017 – 2018"
+      "period": "2017 \u2013 2018"
     }
   ],
   "references": [

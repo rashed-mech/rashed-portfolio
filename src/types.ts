@@ -67,6 +67,7 @@ export interface Project {
   title: string;
   category: string;
   description: string;
+  galleryUrls?: string[];
   fullDescription?: string;
   technologies: string[];
   githubUrl?: string;
@@ -85,6 +86,7 @@ export interface Experience {
   location: string;
   period: string;
   description: string;
+  galleryUrls?: string[];
   highlights: string[];
   current?: boolean;
 }
@@ -102,6 +104,7 @@ export interface Education {
   advisor?: string;
   synopsis?: string;
   description?: string;
+  galleryUrls?: string[];
 }
 
 export interface SkillItem {
@@ -115,6 +118,7 @@ export interface SkillGroup {
   id: string;
   category: string;
   description?: string;
+  galleryUrls?: string[];
   skills: SkillItem[];
 }
 
@@ -126,6 +130,7 @@ export interface Achievement {
   year?: string;
   category?: string;
   description?: string;
+  galleryUrls?: string[];
 }
 
 export interface Affiliation {
@@ -142,6 +147,7 @@ export interface VolunteerEngagement {
   role?: string;
   organization?: string;
   description?: string;
+  galleryUrls?: string[];
   period?: string;
 }
 
@@ -164,6 +170,7 @@ export interface Certification {
   images?: string[];
   credentialUrl?: string;
   description?: string;
+  galleryUrls?: string[];
 }
 
 export interface Reference {
@@ -204,6 +211,8 @@ export interface Training {
   credentialUrl?: string;
   skillsAcquired?: string[];
   description?: string;
+  galleryUrls?: string[];
+  tickerSpeed?: number;
 }
 
 
@@ -213,6 +222,7 @@ export interface CorePillar {
   title: string;
   tag: string;
   description: string;
+  galleryUrls?: string[];
 }
 
 export interface CoreMetric {
@@ -224,6 +234,7 @@ export interface CoreMetric {
 
 
 export interface SectionConfig {
+  overview?: { showPillars: boolean };
   capabilities: { title: string; subtitle: string };
   projects: { title: string; subtitle: string };
   experience: { title: string; subtitle: string };

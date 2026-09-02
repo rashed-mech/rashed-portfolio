@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Cpu, 
   Flame, 
@@ -8,7 +8,10 @@ import {
   MapPin, 
   ShieldCheck,
   Award,
-  BookOpen
+  BookOpen,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Profile, PortfolioData } from '../types';
 import { useLiveScholarStats } from '../hooks/useLiveScholarStats';
@@ -37,9 +40,13 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
     },
     {
       icon: Flame,
-      title: 'Hydrogen & CFD Simulation',
+      title: 'Computation Fluid Dynamics',
       tag: 'CONVERGE 3.0 · ANSYS Fluent · SolidWorks',
-      description: 'Combustion modeling of green hydrogen vs conventional fuels in PFI SI engines, thermo-hydraulic heat exchanger modeling, and atomistic molecular dynamics.'
+      description: 'Combustion modeling of green hydrogen vs conventional fuels in PFI SI engines, thermo-hydraulic heat exchanger modeling, and atomistic molecular dynamics.',
+      galleryUrls: [
+        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200',
+        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1200'
+      ]
     },
     {
       icon: Wrench,
@@ -66,6 +73,20 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
   
   const pillars = data?.pillars?.length ? data.pillars.map(p => ({...p, icon: iconMap[p.icon as string] || Cpu})) : fallbackPillars;
   const metrics = data?.metrics?.length ? data.metrics : fallbackMetrics;
+
+  const [selectedPillarIdx, setSelectedPillarIdx] = useState<number | null>(null);
+  const [selectedSlideIdx, setSelectedSlideIdx] = useState(0);
+  
+  const selectedPillar = selectedPillarIdx !== null ? pillars[selectedPillarIdx] : null;
+  const modalSlides = selectedPillar?.galleryUrls || [];
+
+  const handlePillarClick = (idx: number) => {
+    if (pillars[idx].galleryUrls && pillars[idx].galleryUrls.length > 0) {
+      setSelectedPillarIdx(idx);
+      setSelectedSlideIdx(0);
+    }
+  };
+
 
 
   return (
@@ -114,13 +135,15 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
         </div>
 
         {/* 4 Core Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {data?.sectionConfig?.overview?.showPillars !== false && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {pillars.map((pillar, idx) => {
             const Icon = pillar.icon;
             return (
               <div 
                 key={idx}
-                className="p-4 sm:p-5 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex flex-col group shadow-sm shadow-slate-200/50"
+                onClick={() => handlePillarClick(idx)}
+                className={`p-4 sm:p-5 rounded-xl bg-white/85 backdrop-blur-md border transition-all flex flex-col group shadow-sm shadow-slate-200/50 ${pillar.galleryUrls && pillar.galleryUrls.length > 0 ? 'hover:border-indigo-400 cursor-pointer border-slate-200' : 'border-slate-200 hover:border-indigo-300'}`}
               >
                 <div className="flex items-center gap-3 mb-2.5">
                   <div className="w-9 h-9 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:border-indigo-300 group-hover:bg-indigo-100 transition-colors">
@@ -140,7 +163,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ profile, data 
             );
           })}
         </div>
-
+        )}
       </motion.div>
     </section>
   );

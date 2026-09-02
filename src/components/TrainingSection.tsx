@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
 import React, { useState, useEffect } from 'react';
 import { 
-  Award, 
+  Award,
+  Radio, 
   MapPin,
   ShieldCheck,
   ExternalLink,
@@ -17,6 +18,110 @@ interface TrainingSectionProps {
   trainings?: Training[];
   certifications?: Certification[];
 }
+
+
+
+const TrainingCard: React.FC<{ tr: Training; onClickTitle: (tr: Training, slideIdx: number) => void }> = ({ tr, onClickTitle }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = tr.galleryUrls || [];
+  const totalSlides = slides.length;
+
+  useEffect(() => {
+    if (totalSlides <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentSlide(p => (p + 1) % totalSlides);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [totalSlides]);
+
+  return (
+    <div 
+      className="relative overflow-hidden p-6 rounded-2xl border border-slate-200 transition-all flex flex-col h-full min-h-[340px] group/card shadow-sm shadow-slate-200/50 hover:border-indigo-400 cursor-pointer"
+      onClick={() => onClickTitle(tr, currentSlide)}
+    >
+      <div className="absolute inset-0 z-0 bg-white/85 backdrop-blur-md" />
+
+      {totalSlides > 0 && (
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div 
+            className="flex h-full transition-transform duration-500 ease-in-out group-hover/card:scale-105"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {slides.map((url, idx) => (
+              <div 
+                key={idx}
+                className="w-full h-full flex-shrink-0 bg-cover bg-center bg-no-repeat opacity-[0.85]"
+                style={{ backgroundImage: `url(${formatImageUrl(url)})` }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="relative z-10 flex flex-col h-full opacity-100 justify-between">
+        
+        <div className="flex items-center justify-between mb-0 shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover/card:bg-white transition-colors shadow-sm shadow-black/5">
+            <Award className="w-4 h-4" />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-1 rounded bg-indigo-50/90 backdrop-blur-sm border border-indigo-200/80 text-[11px] font-mono font-semibold text-indigo-700 shadow-sm shadow-black/5">
+              {tr.year}
+            </span>
+            {totalSlides > 1 && (
+              <div className="flex items-center space-x-1.5 bg-white/50 px-2 py-1.5 rounded-full backdrop-blur-sm" onClick={e => e.stopPropagation()}>
+                {slides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => { e.stopPropagation(); setCurrentSlide(idx); }}
+                    className={`block h-1.5 rounded-full transition-all duration-300 ${idx === currentSlide ? 'w-4 bg-indigo-600' : 'w-1.5 bg-slate-300 hover:bg-slate-400'}`}
+                    title={`View image ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full flex-1 flex flex-col items-center justify-start pointer-events-none -mt-1">
+          <div className="bg-white/[0.15] backdrop-blur-sm p-2 sm:p-3 rounded-xl shadow-sm shadow-black/5 border border-white/30 pointer-events-auto w-full flex flex-col items-center text-center">
+            <button 
+              onClick={(e) => { e.stopPropagation(); onClickTitle(tr, currentSlide); }} 
+              className="focus:outline-none block mb-1"
+            >
+              <h4 className="text-sm sm:text-base font-bold text-black group-hover/card:text-indigo-800 transition-colors leading-snug hover:underline cursor-pointer">
+                {tr.title}
+              </h4>
+            </button>
+            <div className="text-xs font-mono text-slate-800">
+              {tr.issuer}
+            </div>
+          </div>
+        </div>
+
+        {tr.description && (
+          <div className="mt-auto pt-6 -mx-4 w-[calc(100%+2rem)] pointer-events-auto" onClick={e => e.stopPropagation()}>
+            <div className="flex items-stretch bg-slate-100 border border-slate-200 rounded-lg overflow-hidden shadow-sm h-8 relative group/ticker">
+              <div className="bg-red-600 text-white flex items-center px-1 z-10 shadow-[2px_0_5px_rgba(0,0,0,0.1)] shrink-0">
+                <span className="text-[13px] font-bold tracking-tighter whitespace-nowrap">Course Overview</span>
+              </div>
+              <div className="flex-1 overflow-hidden relative flex items-center">
+                <div 
+                  className="ticker whitespace-nowrap text-[13px] text-black font-medium tracking-wide"
+                  style={{ animationDuration: `${(tr.tickerSpeed || 15) * (0.4 + (tr.description?.length || 0) * 0.006)}s` }}
+                  title="Hover to pause"
+                >
+                  {tr.description}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 
 const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Certification, slideIdx: number) => void }> = ({ cert, onClickTitle }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -150,6 +255,7 @@ const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Ce
 
 export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = [], certifications = [], config }) => {
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const [selectedTraining, setSelectedTraining] = useState<Training | null>(null);
   const [selectedSlideIdx, setSelectedSlideIdx] = useState<number>(0);
   
   const modalSlides = selectedCert ? [
@@ -186,34 +292,18 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                 PROFESSIONAL TRAINING & FIELD VISITS
               </h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {trainings.map((tr) => (
-                <div
+                <TrainingCard 
                   key={tr.id}
-                  className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all flex flex-col justify-between group shadow-sm shadow-slate-200/50"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:border-indigo-300 group-hover:bg-indigo-100 transition-colors">
-                        <Award className="w-4 h-4" />
-                      </div>
-                      <span className="px-2.5 py-1 rounded bg-indigo-50 border border-indigo-100 text-[11px] font-mono text-indigo-700">
-                        {tr.year}
-                      </span>
-                    </div>
-                    <h4 className="text-sm sm:text-base font-bold text-black group-hover:text-indigo-600 transition-colors leading-snug">
-                      {tr.title}
-                    </h4>
-                    <div className="text-xs font-mono text-black">
-                      {tr.issuer}
-                    </div>
-                    {tr.description && (
-                      <p className="text-xs text-black font-light leading-relaxed text-justify">
-                        {tr.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  tr={tr}
+                  onClickTitle={(trObj, idx) => {
+                    if (trObj.galleryUrls && trObj.galleryUrls.length > 0) {
+                      setSelectedTraining(trObj);
+                      setSelectedSlideIdx(idx);
+                    }
+                  }}
+                />
               ))}
             </div>
           </div>
@@ -271,7 +361,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
               </p>
             </div>
 
-            <div className="mt-6 flex-1 min-h-0 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-center relative group/modal">
+            <div className="mt-6 relative w-full h-[50vh] sm:h-[70vh] rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-center group/modal overflow-hidden">
               {modalSlides.length > 1 && (
                 <>
                   <button 
@@ -302,7 +392,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
                   key={currentModalObj.imageUrl}
                   src={formatImageUrl(currentModalObj.imageUrl)} 
                   alt={currentModalObj.title} 
-                  className="w-full h-full object-contain p-2 animate-in fade-in duration-300 cursor-pointer hover:opacity-90 transition-opacity"
+                  className="max-w-full max-h-full object-contain p-2 animate-in fade-in duration-300 cursor-pointer hover:opacity-90 transition-opacity"
                   title="Click to view full size in new tab"
                   onClick={() => window.open(formatImageUrl(currentModalObj.imageUrl), '_blank')}
                 />
@@ -344,6 +434,100 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
             </div>
           </div>
         </div>
-      )}    </section>
+      )}
+      {/* Training Preview Modal */}
+      {selectedTraining && selectedTraining.galleryUrls && selectedTraining.galleryUrls.length > 0 && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSelectedTraining(null)}
+        >
+          <div 
+            className="bg-white rounded-2xl max-w-6xl w-full p-6 sm:p-8 shadow-2xl relative flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200"
+            onClick={e => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setSelectedTraining(null)}
+              className="absolute top-4 right-4 p-2 text-black hover:text-black hover:bg-slate-100 rounded-full transition-colors z-10"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="pr-10 shrink-0">
+              <h3 className="text-xl sm:text-2xl font-bold text-black leading-tight">
+                {selectedTraining.title}
+              </h3>
+              <p className="text-sm text-black mt-1 font-mono text-justify">
+                {selectedTraining.issuer} • {selectedTraining.year}
+              </p>
+            </div>
+
+            <div className="mt-6 relative w-full h-[50vh] sm:h-[70vh] rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-center group/modal overflow-hidden">
+              {selectedTraining.galleryUrls.length > 1 && (
+                <>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSlideIdx(prev => (prev - 1 + selectedTraining.galleryUrls!.length) % selectedTraining.galleryUrls!.length);
+                    }}
+                    className="absolute left-2 sm:left-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-black hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    aria-label="Previous Image"
+                  >
+                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSlideIdx(prev => (prev + 1) % selectedTraining.galleryUrls!.length);
+                    }}
+                    className="absolute right-2 sm:right-4 p-2 sm:p-3 bg-white/80 hover:bg-white text-black hover:text-indigo-600 rounded-full shadow-md backdrop-blur-md transition-all opacity-0 group-hover/modal:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    aria-label="Next Image"
+                  >
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                </>
+              )}
+
+              <img 
+                key={selectedTraining.galleryUrls[selectedSlideIdx]}
+                src={formatImageUrl(selectedTraining.galleryUrls[selectedSlideIdx])} 
+                alt={selectedTraining.title} 
+                className="max-w-full max-h-full object-contain p-2 animate-in fade-in duration-300 cursor-pointer hover:opacity-90 transition-opacity"
+                title="Click to view full size in new tab"
+                onClick={() => window.open(formatImageUrl(selectedTraining.galleryUrls![selectedSlideIdx]), '_blank')}
+              />
+            </div>
+            
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <button 
+                  onClick={() => setSelectedTraining(null)}
+                  className="px-4 py-2 text-sm font-semibold text-black hover:text-black transition-colors"
+                >
+                  Close
+                </button>
+                {selectedTraining.galleryUrls.length > 1 && (
+                  <div className="text-xs font-mono text-black bg-slate-100 px-3 py-1.5 rounded-full">
+                    {selectedSlideIdx + 1} / {selectedTraining.galleryUrls.length}
+                  </div>
+                )}
+              </div>
+              
+              {selectedTraining.credentialUrl && (
+                <a 
+                  href={selectedTraining.credentialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto text-center inline-flex justify-center items-center px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-600/20 active:scale-95"
+                >
+                  Verify Credential <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+
   );
 };

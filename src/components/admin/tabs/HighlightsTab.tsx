@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Sparkles, Save, GripVertical, Trash2, Plus, Edit } from 'lucide-react';
 import { PortfolioData, CorePillar, CoreMetric } from '../../../types';
-import { updatePillarsAPI, updateMetricsAPI } from '../../../api';
+import { updatePillarsAPI, updateMetricsAPI, updateSectionConfigAPI } from '../../../api';
 
 interface HighlightsTabProps {
   data: PortfolioData;
@@ -15,6 +15,7 @@ const DraggableComponent = Draggable as any;
 export const HighlightsTab: React.FC<HighlightsTabProps> = ({ data, onRefresh, showToast }) => {
   const [pillars, setPillars] = useState<CorePillar[]>(data.pillars || []);
   const [metrics, setMetrics] = useState<CoreMetric[]>(data.metrics || []);
+  const [showPillars, setShowPillars] = useState(data.sectionConfig?.overview?.showPillars !== false);
   const [loading, setLoading] = useState(false);
 
   const handleDragEndPillars = (result: DropResult) => {
@@ -37,6 +38,13 @@ export const HighlightsTab: React.FC<HighlightsTabProps> = ({ data, onRefresh, s
     try {
       setLoading(true);
       await updatePillarsAPI(pillars);
+      await updateSectionConfigAPI({
+        ...data.sectionConfig,
+        overview: {
+          ...(data.sectionConfig?.overview || {}),
+          showPillars
+        }
+      });
       showToast('Core Pillars saved successfully', 'success');
       onRefresh();
     } catch (err: any) {
@@ -60,7 +68,12 @@ export const HighlightsTab: React.FC<HighlightsTabProps> = ({ data, onRefresh, s
   };
 
   const updatePillar = (id: string, field: keyof CorePillar, value: string) => {
-    setPillars(pillars.map(p => p.id === id ? { ...p, [field]: value } : p));
+    if (field === 'galleryUrls') {
+      const urls = value.split('\n').map(u => u.trim()).filter(Boolean);
+      setPillars(pillars.map(p => p.id === id ? { ...p, galleryUrls: urls } : p));
+    } else {
+      setPillars(pillars.map(p => p.id === id ? { ...p, [field]: value } : p));
+    }
   };
 
   const updateMetric = (id: string, field: keyof CoreMetric, value: string) => {
@@ -78,6 +91,17 @@ export const HighlightsTab: React.FC<HighlightsTabProps> = ({ data, onRefresh, s
               Core Pillars
             </h2>
             <p className="text-sm text-slate-400 mt-1">Manage the 4 main expertise pillars shown in the Overview section. Drag to reorder.</p>
+            <div className="mt-3 flex items-center gap-3">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={showPillars}
+                  onChange={(e) => setShowPillars(e.target.checked)}
+                  className="w-4 h-4 text-indigo-600 rounded border-slate-700 bg-slate-900 focus:ring-indigo-500"
+                />
+                <span className="text-sm font-medium text-slate-300">Show "Core Pillars" section publicly</span>
+              </label>
+            </div>
           </div>
           <button
             onClick={savePillars}
@@ -140,6 +164,17 @@ export const HighlightsTab: React.FC<HighlightsTabProps> = ({ data, onRefresh, s
                                 value={pillar.icon}
                                 onChange={(e) => updatePillar(pillar.id, 'icon', e.target.value)}
                                 className="w-full md:w-1/3 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                              />
+                            </div>
+                            <div className="md:col-span-2">
+                              <label className="block text-xs font-medium text-slate-400 mb-1">Gallery Image URLs (One URL per line - for Modal Carousel)</label>
+                              <textarea
+                                value={(pillar.galleryUrls || []).join('\n')}
+                                onChange={(e) => updatePillar(pillar.id, 'galleryUrls', e.target.value as any)}
+                                rows={2}
+                                placeholder="https://example.com/image1.jpg
+https://example.com/image2.jpg"
+                                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                               />
                             </div>
                           </div>

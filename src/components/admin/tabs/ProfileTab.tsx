@@ -134,13 +134,13 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, onRefresh, show
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Headline (Main Hero Tagline)
+              Overview Section Sub-Heading (e.g., Mechanical Engineering...)
             </label>
             <input
               type="text"
               value={formData.headline || ''}
               onChange={(e) => setFormData({ ...formData, headline: e.target.value })}
-              placeholder="e.g. Advancing Healthcare Informatics & Computer Vision..."
+              placeholder="Mechanical Engineering, Renewable Energy Systems & Field Analysis"
               className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-xl text-white"
             />
           </div>

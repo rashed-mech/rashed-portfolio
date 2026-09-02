@@ -313,6 +313,16 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
               </div>
 
               <div>
+                <label className="text-xs font-semibold text-slate-300">Gallery Image URLs (One URL per line - for Modal Carousel)</label>
+                <textarea
+                  rows={2}
+                  value={(formData.galleryUrls || []).join('\n')}
+                  onChange={(e) => setFormData({ ...formData, galleryUrls: e.target.value.split('\n').map(u => u.trim()).filter(Boolean) })}
+                  placeholder="https://example.com/image1.jpg\nhttps://example.com/image2.jpg"
+                  className="w-full mt-1 px-3 py-2 text-xs text-white bg-slate-900/90 border border-slate-700 rounded-xl"
+                />
+              </div>
+              <div>
                 <label className="text-xs font-semibold text-slate-300">Description</label>
                 <textarea
                   rows={3}
@@ -321,6 +331,17 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
                   placeholder="Brief summary of skills and topics covered..."
                   className="w-full mt-1 px-3 py-2 text-xs text-white bg-slate-900/90 border border-slate-700 rounded-xl"
                 />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-slate-300">Crawler Speed (seconds)</label>
+                <input
+                  type="number"
+                  value={formData.tickerSpeed || ''}
+                  onChange={(e) => setFormData({ ...formData, tickerSpeed: e.target.value ? parseInt(e.target.value, 10) : undefined })}
+                  placeholder="15"
+                  className="w-full mt-1 px-3 py-2 text-xs text-white bg-slate-900/90 border border-slate-700 rounded-xl"
+                />
+                <p className="text-[10px] text-slate-500 mt-1">Leave blank for default (15 seconds). Higher number = slower.</p>
               </div>
 
               <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-700">
