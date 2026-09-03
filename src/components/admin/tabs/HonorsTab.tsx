@@ -40,9 +40,9 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
   const openAddModal = () => {
     setEditingId(null);
     if (subTab === 'references') {
-      setFormData({ name: '', role: '', department: '', institution: '', email: '', phone: '', website: '' });
+      setFormData({ name: '', role: '', department: '', institution: '', email: '', phone: '', website: '', isLive: true });
     } else if (subTab === 'volunteer') {
-      setFormData({ title: '', role: '', organization: '', description: '', period: '' });
+      setFormData({ title: '', role: '', organization: '', description: '', period: '', isLive: true });
     } else if (subTab === 'achievements') {
       setFormData({ title: '', category: '', year: '', description: '' });
     } else if (subTab === 'affiliations') {
@@ -132,7 +132,12 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
           {subTab === 'references' && references.map(ref => (
             <div key={ref.id} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 flex justify-between items-start">
               <div>
-                <h4 className="font-semibold text-slate-200">{ref.name}</h4>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-semibold text-slate-200">{ref.name}</h4>
+                  {ref.isLive === false && (
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-slate-700 text-slate-300">Offline</span>
+                  )}
+                </div>
                 <div className="text-sm text-slate-400 mt-1">{ref.role} {ref.department ? `· ${ref.department}` : ''}</div>
                 <div className="text-xs text-slate-500 mt-1">{ref.institution || ref.organization}</div>
               </div>
@@ -145,7 +150,12 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
           {subTab === 'volunteer' && volunteerWork.map(vol => (
             <div key={vol.id} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 flex justify-between items-start">
               <div>
-                <h4 className="font-semibold text-slate-200">{vol.title || vol.role}</h4>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-semibold text-slate-200">{vol.title || vol.role}</h4>
+                  {vol.isLive === false && (
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-slate-700 text-slate-300">Offline</span>
+                  )}
+                </div>
                 <div className="text-sm text-slate-400 mt-1">{vol.organization}</div>
               </div>
               <div className="flex items-center space-x-2">
@@ -227,6 +237,18 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
                     <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Website URL</label>
                     <input type="url" value={formData.website || ''} onChange={(e) => setFormData({...formData, website: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all" />
                   </div>
+                  <div className="flex items-center space-x-3 py-2">
+                    <input
+                      type="checkbox"
+                      id="isLive"
+                      checked={formData.isLive !== false}
+                      onChange={(e) => setFormData({ ...formData, isLive: e.target.checked })}
+                      className="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-slate-800"
+                    />
+                    <label htmlFor="isLive" className="text-xs font-semibold text-slate-300 cursor-pointer">
+                      Show as Live in public portfolio
+                    </label>
+                  </div>
                 </>
               )}
               {subTab === 'volunteer' && (
@@ -246,6 +268,18 @@ export const HonorsTab: React.FC<HonorsTabProps> = ({ data, references,
                   <div>
                     <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Description</label>
                     <textarea value={formData.description || ''} onChange={(e) => setFormData({...formData, description: e.target.value})} rows={3} className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all" />
+                  </div>
+                  <div className="flex items-center space-x-3 py-2">
+                    <input
+                      type="checkbox"
+                      id="isLiveVolunteer"
+                      checked={formData.isLive !== false}
+                      onChange={(e) => setFormData({ ...formData, isLive: e.target.checked })}
+                      className="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-slate-800"
+                    />
+                    <label htmlFor="isLiveVolunteer" className="text-xs font-semibold text-slate-300 cursor-pointer">
+                      Show as Live in public portfolio
+                    </label>
                   </div>
                 </>
               )}

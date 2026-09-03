@@ -254,6 +254,7 @@ const CertificationCard: React.FC<{ cert: Certification; onClickTitle: (cert: Ce
 };
 
 export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = [], certifications = [], config }) => {
+  const visibleTrainings = trainings.filter(tr => tr.isLive !== false);
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
   const [selectedTraining, setSelectedTraining] = useState<Training | null>(null);
   const [selectedSlideIdx, setSelectedSlideIdx] = useState<number>(0);
@@ -284,7 +285,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
         </div>
 
         {/* Subsection 1: Professional Training & Field Visits */}
-        {trainings.length > 0 && (
+        {visibleTrainings.length > 0 && (
           <div className="space-y-6 mb-12">
             <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
               <MapPin className="w-4 h-4 text-indigo-600" />
@@ -293,7 +294,7 @@ export const TrainingSection: React.FC<TrainingSectionProps> = ({ trainings = []
               </h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {trainings.map((tr) => (
+              {visibleTrainings.map((tr) => (
                 <TrainingCard 
                   key={tr.id}
                   tr={tr}

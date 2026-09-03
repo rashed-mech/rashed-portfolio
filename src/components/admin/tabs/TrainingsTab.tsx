@@ -25,7 +25,8 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
     year: '',
     credentialUrl: '',
     skillsAcquired: [],
-    description: ''
+    description: '',
+    isLive: true
   });
   const [skillsInput, setSkillsInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -58,7 +59,8 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
       year: new Date().getFullYear().toString(),
       credentialUrl: '',
       skillsAcquired: [],
-      description: ''
+      description: '',
+      isLive: true
     });
     setSkillsInput('');
     setIsModalOpen(true);
@@ -72,7 +74,10 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
       year: tr.year,
       credentialUrl: tr.credentialUrl || '',
       skillsAcquired: tr.skillsAcquired || [],
-      description: tr.description || ''
+      description: tr.description || '',
+      galleryUrls: tr.galleryUrls || [],
+      tickerSpeed: tr.tickerSpeed,
+      isLive: tr.isLive ?? true
     });
     setSkillsInput((tr.skillsAcquired || []).join(', '));
     setIsModalOpen(true);
@@ -170,9 +175,14 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
                         <div className="space-y-2.5 flex-1">
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <h3 className="text-sm font-bold text-white">
-                                {tr.title}
-                              </h3>
+                              <div className="flex items-center gap-2">
+                                <h3 className="text-sm font-bold text-white">
+                                  {tr.title}
+                                </h3>
+                                {tr.isLive === false && (
+                                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-slate-700 text-slate-300">Offline</span>
+                                )}
+                              </div>
                               <p className="text-xs font-mono text-indigo-400">
                                 {tr.issuer}
                               </p>
@@ -342,6 +352,19 @@ export const TrainingsTab: React.FC<TrainingsTabProps> = ({ data, trainings = []
                   className="w-full mt-1 px-3 py-2 text-xs text-white bg-slate-900/90 border border-slate-700 rounded-xl"
                 />
                 <p className="text-[10px] text-slate-500 mt-1">Leave blank for default (15 seconds). Higher number = slower.</p>
+              </div>
+              
+              <div className="flex items-center space-x-3 py-2">
+                <input
+                  type="checkbox"
+                  id="isLive"
+                  checked={formData.isLive !== false}
+                  onChange={(e) => setFormData({ ...formData, isLive: e.target.checked })}
+                  className="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-slate-800"
+                />
+                <label htmlFor="isLive" className="text-xs font-semibold text-slate-300 cursor-pointer">
+                  Show as Live in public portfolio
+                </label>
               </div>
 
               <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-700">

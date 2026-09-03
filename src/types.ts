@@ -149,6 +149,7 @@ export interface VolunteerEngagement {
   description?: string;
   galleryUrls?: string[];
   period?: string;
+  isLive?: boolean;
 }
 
 export type VolunteerExperience = VolunteerEngagement;
@@ -184,6 +185,7 @@ export interface Reference {
   email?: string;
   phone?: string;
   website?: string;
+  isLive?: boolean;
 }
 
 export interface Message {
@@ -213,6 +215,7 @@ export interface Training {
   description?: string;
   galleryUrls?: string[];
   tickerSpeed?: number;
+  isLive?: boolean;
 }
 
 

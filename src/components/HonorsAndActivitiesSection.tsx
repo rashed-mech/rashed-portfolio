@@ -29,6 +29,8 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
   references = [],
   config
 }) => {
+  const visibleReferences = references.filter(ref => ref.isLive !== false);
+
   return (
     <section className="py-12 sm:py-16 border-t border-slate-200" id="honors-activities">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -123,7 +125,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
           )}
 
           {/* Full Width Row: Volunteer Experiences */}
-          {volunteerWork.length > 0 && (
+          {volunteerWork.filter(v => v.isLive !== false).length > 0 && (
             <div className="space-y-4 pt-4">
               <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
                 <HeartHandshake className="w-4 h-4 text-indigo-600" />
@@ -132,7 +134,7 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                 </h3>
               </div>
               <div className="grid grid-cols-1 gap-3">
-                {volunteerWork.map((vol) => (
+                {volunteerWork.filter(v => v.isLive !== false).map((vol) => (
                   <div
                     key={vol.id}
                     className="p-4 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all space-y-1.5 group shadow-sm shadow-slate-200/50"
@@ -157,6 +159,46 @@ export const HonorsAndActivitiesSection: React.FC<HonorsAndActivitiesSectionProp
                         {vol.description}
                       </p>
                     )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Full Width Row: References */}
+          {visibleReferences.length > 0 && (
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center space-x-2 pb-2 border-b border-slate-200">
+                <UserCheck className="w-4 h-4 text-indigo-600" />
+                <h3 className="text-sm font-mono tracking-wider text-black uppercase font-semibold">
+                  ACADEMIC & PROFESSIONAL REFERENCES
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {visibleReferences.map((ref) => (
+                  <div key={ref.id} className="p-5 rounded-xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all shadow-sm shadow-slate-200/50 flex flex-col space-y-3">
+                    <h4 className="text-base font-bold text-black">
+                      {ref.website ? (
+                        <a href={ref.website} target="_blank" rel="noreferrer" className="hover:text-indigo-600 transition-colors">
+                          {ref.name}
+                        </a>
+                      ) : (
+                        ref.name
+                      )}
+                    </h4>
+                    
+                    <div className="space-y-1">
+                      <div className="text-xs font-mono text-indigo-600 font-semibold uppercase tracking-wide">
+                        {ref.designation || ref.role}
+                      </div>
+                      {ref.department && (
+                        <div className="text-[11px] font-mono text-slate-500 font-semibold uppercase tracking-wide">
+                          {ref.department}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="text-xs text-black font-medium">{ref.institution || ref.organization}</div>
                   </div>
                 ))}
               </div>
