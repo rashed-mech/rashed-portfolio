@@ -83,7 +83,7 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
 
   const openExpCreate = () => {
     setEditingExpId(null);
-    setExpFormData({ role: '', organization: '', location: '', period: '', description: '', highlights: [], current: false });
+    setExpFormData({ role: '', organization: '', location: '', period: '', description: '', highlights: [], current: false, employmentType: '', supervisors: '', paperLink: '', department: '' });
     setHighlightsInput('');
     setIsExpModalOpen(true);
   };
@@ -91,7 +91,8 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
     setEditingExpId(exp.id);
     setExpFormData({
       role: exp.role, organization: exp.organization, location: exp.location, period: exp.period,
-      description: exp.description || '', highlights: exp.highlights || [], current: exp.current || false
+      description: exp.description || '', highlights: exp.highlights || [], current: exp.current || false,
+      employmentType: exp.employmentType || '', supervisors: exp.supervisors || '', paperLink: exp.paperLink || '', department: exp.department || ''
     });
     setHighlightsInput((exp.highlights || []).join('\n'));
     setIsExpModalOpen(true);
@@ -316,12 +317,54 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
             <h3 className="text-lg font-bold text-white mb-4">Edit Experience</h3>
             <form onSubmit={handleExpSubmit} className="space-y-3 max-h-[70vh] overflow-y-auto px-1 pb-4">
               <input placeholder="Role / Position" required value={expFormData.role} onChange={(e) => setExpFormData({...expFormData, role: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <input placeholder="Organization / Company" required value={expFormData.organization} onChange={(e) => setExpFormData({...expFormData, organization: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+              <div className="space-y-2 border border-slate-700 p-3 rounded-lg bg-slate-800/50">
+                <div className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Organizations & Locations</div>
+                {Array.from({ length: Math.max((expFormData.organization || '').split('\n').length, (expFormData.location || '').split('\n').length, 1) }).map((_, idx) => {
+                  const orgs = (expFormData.organization || '').split('\n');
+                  const locs = (expFormData.location || '').split('\n');
+                  const isLast = idx === Math.max(orgs.length, locs.length, 1) - 1;
+                  return (
+                    <div key={idx} className="flex items-start gap-2">
+                      <div className="flex-1 space-y-2">
+                        <input placeholder="Organization / Company" required={idx === 0} value={orgs[idx] || ''} onChange={(e) => {
+                          const newOrgs = [...orgs];
+                          newOrgs[idx] = e.target.value;
+                          setExpFormData({...expFormData, organization: newOrgs.join('\n')});
+                        }} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+                        <input placeholder="Location" value={locs[idx] || ''} onChange={(e) => {
+                          const newLocs = [...locs];
+                          newLocs[idx] = e.target.value;
+                          setExpFormData({...expFormData, location: newLocs.join('\n')});
+                        }} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+                      </div>
+                      <div className="flex flex-col gap-1 pt-1">
+                        {isLast && (
+                          <button type="button" onClick={() => {
+                            const newOrgs = [...orgs, ''];
+                            const newLocs = [...locs, ''];
+                            setExpFormData({...expFormData, organization: newOrgs.join('\n'), location: newLocs.join('\n')});
+                          }} className="p-1.5 bg-indigo-600/20 text-indigo-400 hover:bg-indigo-600/40 rounded">
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        )}
+                        {Math.max(orgs.length, locs.length, 1) > 1 && (
+                          <button type="button" onClick={() => {
+                            const newOrgs = orgs.filter((_, i) => i !== idx);
+                            const newLocs = locs.filter((_, i) => i !== idx);
+                            setExpFormData({...expFormData, organization: newOrgs.join('\n'), location: newLocs.join('\n')});
+                          }} className="p-1.5 bg-red-900/20 text-red-400 hover:bg-red-900/40 rounded">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
               <input placeholder="Department (Optional)" value={expFormData.department || ''} onChange={(e) => setExpFormData({...expFormData, department: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               <input placeholder="Employment Type (e.g., Full-time)" value={expFormData.employmentType || ''} onChange={(e) => setExpFormData({...expFormData, employmentType: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               <input placeholder="Period (e.g., Sep 2022 - Jun 2023 · 10 mos)" required value={expFormData.period} onChange={(e) => setExpFormData({...expFormData, period: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <input placeholder="Location" value={expFormData.location} onChange={(e) => setExpFormData({...expFormData, location: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
-              <textarea placeholder="Supervisors (Optional, e.g., Supervised by: ...)" rows={2} value={expFormData.supervisors || ''} onChange={(e) => setExpFormData({...expFormData, supervisors: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+              <textarea placeholder="Supervisors (Optional, e.g., Supervised by: [Md. Rasel Ahmed](https://example.com))" rows={2} value={expFormData.supervisors || ''} onChange={(e) => setExpFormData({...expFormData, supervisors: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               <textarea placeholder="Description" rows={4} value={expFormData.description} onChange={(e) => setExpFormData({...expFormData, description: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               <textarea placeholder="Highlights (one per line)" rows={3} value={highlightsInput} onChange={(e) => setHighlightsInput(e.target.value)} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               <input placeholder="Published Paper Link (Optional)" value={expFormData.paperLink || ''} onChange={(e) => setExpFormData({...expFormData, paperLink: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
@@ -363,7 +406,7 @@ export const TimelineTab: React.FC<TimelineTabProps> = ({ data, experience = [],
               
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">Advisor</label>
-                <input placeholder="Prof. Name" value={eduFormData.advisor || ''} onChange={(e) => setEduFormData({...eduFormData, advisor: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
+                <input placeholder="Prof. Name (e.g. [Name](URL))" value={eduFormData.advisor || ''} onChange={(e) => setEduFormData({...eduFormData, advisor: e.target.value})} className="w-full p-2 bg-slate-900 text-white rounded-lg text-sm border border-slate-700"/>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">Synopsis</label>

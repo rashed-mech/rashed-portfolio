@@ -18,6 +18,22 @@ interface ExperienceSectionProps {
   education: Education[];
 }
 
+const renderWithLinks = (text: string) => {
+  if (!text) return null;
+  const parts = text.split(/\[([^\]]+)\]\(([^)]+)\)/);
+  if (parts.length === 1) return text;
+  
+  return parts.map((part, i) => {
+    if (i % 3 === 0) return <React.Fragment key={i}>{part}</React.Fragment>;
+    if (i % 3 === 1) return (
+      <a key={i} href={parts[i + 1]} target="_blank" rel="noreferrer" className="text-black font-normal hover:underline hover:decoration-indigo-600 hover:decoration-2 underline-offset-4 transition-all cursor-pointer">
+        {part}
+      </a>
+    );
+    return null;
+  });
+};
+
 export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   experience,
   education,
@@ -57,46 +73,76 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
               {experience.map((exp) => (
                 <div
                   key={exp.id}
-                  className="p-5 sm:p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all space-y-3 relative group shadow-sm shadow-slate-200/50"
+                  className="p-5 sm:p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-300 transition-all space-y-4 relative group shadow-sm shadow-slate-200/50"
                 >
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div>
-                      <h4 className="text-base font-bold text-black group-hover:text-indigo-600 transition-colors">
-                        {exp.role}
-                      </h4>
-                      <div className="text-xs font-mono text-black mt-0.5">
-                        {exp.organization}
-                        {exp.department ? ` · ${exp.department}` : ''}
-                        {exp.employmentType ? ` · ${exp.employmentType}` : ''}
-                      </div>
-                    </div>
-                    
-                    <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[11px] font-mono text-indigo-700">
-                      <Calendar className="w-3 h-3" />
-                      <span>{exp.period}</span>
+                  {/* Header Row: Role & Period */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <h4 className="text-sm sm:text-base font-bold text-black group-hover:text-indigo-600 transition-colors">
+                      {exp.role}
+                      {exp.employmentType && <span className="font-normal text-slate-500 text-sm ml-2">· {exp.employmentType}</span>}
+                    </h4>
+                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded bg-indigo-50 border border-indigo-100 text-[11px] font-mono text-indigo-700 whitespace-nowrap shrink-0">
+                      {exp.period}
                     </span>
                   </div>
 
-                  <div className="flex items-center space-x-2 text-xs font-mono text-black">
-                    <MapPin className="w-3.5 h-3.5 text-black" />
-                    <span>{exp.location}</span>
+                  {/* Department & Organizations Row */}
+                  <div className="space-y-1.5 pt-0.5">
+                    {exp.department && (
+                      <div className="text-sm font-bold text-black">
+                        {exp.department}
+                      </div>
+                    )}
+                    
+                    <div className="space-y-1.5">
+                      {exp.organization.split('\n').filter(Boolean).map((org, idx) => {
+                        const locs = exp.location ? exp.location.split('\n').filter(Boolean) : [];
+                        const loc = locs[idx] || (idx === 0 && locs.length === 1 ? locs[0] : null); 
+                        
+                        return (
+                          <div key={idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-4">
+                            <div className="text-xs text-black font-medium">
+                              {org}
+                            </div>
+                            {loc && (
+                              <div className="flex items-center space-x-1.5 text-xs font-mono text-black whitespace-nowrap">
+                                <MapPin className="w-3 h-3 text-black shrink-0" />
+                                <span>{loc}</span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
 
+                  {/* Supervisors Section */}
                   {exp.supervisors && (
-                    <div className="text-xs sm:text-sm text-black font-light leading-relaxed mt-1 whitespace-pre-wrap">
-                      <span className="font-semibold">Supervised by:</span><br/>
-                      {exp.supervisors.replace(/^Supervised by:\s*/i, '')}
+                    <div className="pt-3 border-t border-slate-100 text-xs text-black space-y-1">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
+                        Supervised by:
+                      </span>
+                      <div className="text-black leading-relaxed font-normal whitespace-pre-line">
+                        {renderWithLinks(exp.supervisors.replace(/^Supervised by:\s*/i, ''))}
+                      </div>
                     </div>
                   )}
 
+                  {/* Description Section (styled like Synopsis in Education) */}
                   {exp.description && (
-                    <div className="text-xs sm:text-sm text-black font-light leading-relaxed text-justify mt-2 space-y-2">
-                      {exp.description.split('\n').filter(Boolean).map((paragraph, idx) => (
-                        <p key={idx}>{paragraph}</p>
-                      ))}
+                    <div className="text-xs text-black space-y-1">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
+                        Description:
+                      </span>
+                      <div className="text-black text-justify leading-relaxed font-normal space-y-2">
+                        {exp.description.split('\n').filter(Boolean).map((paragraph, idx) => (
+                          <p key={idx}>{paragraph}</p>
+                        ))}
+                      </div>
                     </div>
                   )}
 
+                  {/* Highlights */}
                   {exp.highlights && exp.highlights.length > 0 && (
                     <ul className="pt-2 space-y-1.5 border-t border-slate-100">
                       {exp.highlights.map((item, hIdx) => (
@@ -108,12 +154,24 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                     </ul>
                   )}
 
+                  {/* Published Paper Links (supports multiple comma-separated links) */}
                   {exp.paperLink && (
-                    <div className="pt-3">
-                      <a href={exp.paperLink} target="_blank" rel="noreferrer" className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 transition-colors rounded-lg text-xs font-semibold text-indigo-700 border border-indigo-200">
-                        <LinkIcon className="w-3.5 h-3.5" />
-                        <span>View Published Paper</span>
-                      </a>
+                    <div className="pt-3 border-t border-slate-100 text-xs text-black space-y-2">
+                      <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
+                        Published Research Paper Links:
+                      </span>
+                      <div className="flex flex-col gap-2">
+                        {exp.paperLink.split(',').map((link, idx) => {
+                          const cleanLink = link.trim();
+                          if (!cleanLink) return null;
+                          return (
+                            <a key={idx} href={cleanLink} target="_blank" rel="noreferrer" className="inline-flex w-fit items-center space-x-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 transition-colors rounded text-xs font-semibold text-indigo-700 border border-indigo-200">
+                              <LinkIcon className="w-3.5 h-3.5" />
+                              <span>View Paper {exp.paperLink.split(',').length > 1 ? idx + 1 : ''}</span>
+                            </a>
+                          )
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -178,9 +236,9 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                       <span className="font-mono text-indigo-600 block text-[11px] uppercase tracking-wider">
                         Advisor:
                       </span>
-                      <p className="text-black text-justify leading-relaxed font-normal">
-                        {edu.advisor}
-                      </p>
+                      <div className="text-black text-justify leading-relaxed font-normal whitespace-pre-line">
+                        {renderWithLinks(edu.advisor)}
+                      </div>
                     </div>
                   )}
                   {edu.synopsis && (

@@ -28,6 +28,22 @@ const createSectionHeader = (title: string) => {
   ];
 };
 
+const parseLinksForPDF = (text: string, prefix: string = '', defaultFontSize: number = 9) => {
+  if (!text) return '';
+  const fullText = prefix + text.replace(new RegExp(`^${prefix}\\s*`, 'i'), '');
+  const parts = fullText.split(/\[([^\]]+)\]\(([^)]+)\)/);
+  if (parts.length === 1) return { text: fullText, fontSize: defaultFontSize };
+  
+  return {
+    text: parts.map((part, i) => {
+      if (i % 3 === 0) return part;
+      if (i % 3 === 1) return { text: part, link: parts[i + 1], color: 'blue', decoration: 'underline' };
+      return '';
+    }).filter(Boolean),
+    fontSize: defaultFontSize
+  };
+};
+
 export const downloadCV = (data: PortfolioData) => {
   const { profile } = data;
   
@@ -65,7 +81,13 @@ export const downloadCV = (data: PortfolioData) => {
           margin: [10, 0, 0, 2]
         },
         edu.thesis ? { text: [ { text: '◦ Dissertation: ', bold: true, fontSize: 9 }, { text: edu.thesis, fontSize: 9 } ], margin: [15, 0, 0, 1] } : null,
-        edu.advisor ? { text: [ { text: '◦ Supervisor: ', bold: true, fontSize: 9 }, { text: edu.advisor, fontSize: 9 } ], margin: [15, 0, 0, 1] } : null,
+        edu.advisor ? { 
+          text: [
+            { text: '◦ Supervisor: ', bold: true, fontSize: 9 }, 
+            parseLinksForPDF(edu.advisor).text 
+          ], 
+          margin: [15, 0, 0, 1] 
+        } : null,
         edu.coursework ? { text: [ { text: '◦ Relevant Coursework: ', bold: true, fontSize: 9 }, { text: edu.coursework, fontSize: 9 } ], margin: [15, 0, 0, 4] } : null,
         // The synopsis is not explicitly in the type, but if there's description we can use it.
         edu.description ? { text: [ { text: '◦ Synopsis: ', bold: true, fontSize: 9 }, { text: edu.description, fontSize: 9 } ], margin: [15, 0, 0, 4], alignment: 'justify' } : null
@@ -73,21 +95,29 @@ export const downloadCV = (data: PortfolioData) => {
 
       ...(data.experience && data.experience.length > 0 ? createSectionHeader('Experience') : []),
       ...(data.experience || []).map(exp => {
-        const organizationLine = [
-          { text: '• ', bold: true },
-          { text: exp.organization, bold: true },
-          exp.department ? { text: ` · ${exp.department}`, bold: true } : '',
-          exp.employmentType ? { text: ` · ${exp.employmentType}`, bold: true } : '',
-          exp.location ? { text: `, ${exp.location}`, bold: true } : ''
-        ].filter(Boolean);
+        const orgs = exp.organization.split('\n').filter(Boolean);
+        const locs = exp.location ? exp.location.split('\n').filter(Boolean) : [];
         
-        return [
-          {
+        const orgBlocks = orgs.map((org, idx) => {
+          const loc = locs[idx] || (idx === 0 && locs.length === 1 ? locs[0] : '');
+          const lineElements = [
+            { text: idx === 0 ? '• ' : '  ', bold: true },
+            { text: org, bold: true },
+            (idx === 0 && exp.department) ? { text: ` · ${exp.department}`, bold: true } : '',
+            (idx === 0 && exp.employmentType) ? { text: ` · ${exp.employmentType}`, bold: true } : ''
+          ].filter(Boolean);
+          
+          return {
             columns: [
-              { text: organizationLine }
+              { text: lineElements },
+              loc ? { text: loc, bold: true, alignment: 'right' } : { text: '' }
             ],
             margin: [0, 0, 0, 1]
-          },
+          };
+        });
+        
+        return [
+          ...orgBlocks,
           {
             columns: [
               { text: exp.role, italics: true },
@@ -95,9 +125,9 @@ export const downloadCV = (data: PortfolioData) => {
             ],
             margin: [10, 0, 0, 2]
           },
-          exp.supervisors ? { text: `Supervised by:\n${exp.supervisors.replace(/^Supervised by:\s*/i, '')}`, margin: [10, 0, 0, 2], fontSize: 9 } : null,
+          exp.supervisors ? { ...parseLinksForPDF(exp.supervisors, 'Supervised by:\n'), margin: [10, 0, 0, 2] } : null,
           exp.description ? { text: exp.description, margin: [10, 0, 0, 2], fontSize: 9 } : null,
-          exp.paperLink ? { text: `Published Paper: ${exp.paperLink}`, margin: [10, 0, 0, 2], fontSize: 9, color: 'blue', link: exp.paperLink } : null,
+          exp.paperLink ? { text: `Published Paper Links:\n${exp.paperLink.split(',').map(l => l.trim()).join('\n')}`, margin: [10, 0, 0, 2], fontSize: 9, color: 'blue' } : null,
           ...(exp.highlights || []).map(h => {
             const match = h.match(/^([^:]+:)(.*)$/);
             if (match) {
