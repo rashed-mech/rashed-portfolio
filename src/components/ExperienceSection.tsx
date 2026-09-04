@@ -7,7 +7,8 @@ import {
   MapPin, 
   CheckCircle, 
   Award,
-  ChevronRight
+  ChevronRight,
+  Link as LinkIcon
 } from 'lucide-react';
 import { Experience, Education } from '../types';
 
@@ -65,6 +66,8 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                       </h4>
                       <div className="text-xs font-mono text-black mt-0.5">
                         {exp.organization}
+                        {exp.department ? ` · ${exp.department}` : ''}
+                        {exp.employmentType ? ` · ${exp.employmentType}` : ''}
                       </div>
                     </div>
                     
@@ -79,10 +82,19 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                     <span>{exp.location}</span>
                   </div>
 
+                  {exp.supervisors && (
+                    <div className="text-xs sm:text-sm text-black font-light leading-relaxed mt-1 whitespace-pre-wrap">
+                      <span className="font-semibold">Supervised by:</span><br/>
+                      {exp.supervisors.replace(/^Supervised by:\s*/i, '')}
+                    </div>
+                  )}
+
                   {exp.description && (
-                    <p className="text-xs sm:text-sm text-black font-light leading-relaxed text-justify">
-                      {exp.description}
-                    </p>
+                    <div className="text-xs sm:text-sm text-black font-light leading-relaxed text-justify mt-2 space-y-2">
+                      {exp.description.split('\n').filter(Boolean).map((paragraph, idx) => (
+                        <p key={idx}>{paragraph}</p>
+                      ))}
+                    </div>
                   )}
 
                   {exp.highlights && exp.highlights.length > 0 && (
@@ -94,6 +106,15 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
                         </li>
                       ))}
                     </ul>
+                  )}
+
+                  {exp.paperLink && (
+                    <div className="pt-3">
+                      <a href={exp.paperLink} target="_blank" rel="noreferrer" className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 transition-colors rounded-lg text-xs font-semibold text-indigo-700 border border-indigo-200">
+                        <LinkIcon className="w-3.5 h-3.5" />
+                        <span>View Published Paper</span>
+                      </a>
+                    </div>
                   )}
                 </div>
               ))}

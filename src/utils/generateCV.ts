@@ -72,30 +72,41 @@ export const downloadCV = (data: PortfolioData) => {
       ])).flat().filter(Boolean),
 
       ...(data.experience && data.experience.length > 0 ? createSectionHeader('Experience') : []),
-      ...(data.experience || []).map(exp => ([
-        {
-          columns: [
-            { text: [ { text: '• ', bold: true }, { text: exp.organization, bold: true }, exp.location ? { text: `, ${exp.location}`, bold: true } : '' ] }
-          ],
-          margin: [0, 0, 0, 1]
-        },
-        {
-          columns: [
-            { text: exp.role, italics: true },
-            { text: exp.period, alignment: 'right', italics: true }
-          ],
-          margin: [10, 0, 0, 2]
-        },
-        exp.description ? { text: [ { text: '◦ ' }, { text: exp.description, fontSize: 9 } ], margin: [15, 0, 0, 1] } : null,
-        ...(exp.highlights || []).map(h => {
-          // Attempt to split into bold title if it exists like "Data collection: "
-          const match = h.match(/^([^:]+:)(.*)$/);
-          if (match) {
-            return { text: [ { text: '◦ ' }, { text: match[1], bold: true, fontSize: 9 }, { text: match[2], fontSize: 9 } ], margin: [15, 0, 0, 1] };
-          }
-          return { text: [ { text: '◦ ' }, { text: h, fontSize: 9 } ], margin: [15, 0, 0, 1] };
-        })
-      ])).flat().filter(Boolean),
+      ...(data.experience || []).map(exp => {
+        const organizationLine = [
+          { text: '• ', bold: true },
+          { text: exp.organization, bold: true },
+          exp.department ? { text: ` · ${exp.department}`, bold: true } : '',
+          exp.employmentType ? { text: ` · ${exp.employmentType}`, bold: true } : '',
+          exp.location ? { text: `, ${exp.location}`, bold: true } : ''
+        ].filter(Boolean);
+        
+        return [
+          {
+            columns: [
+              { text: organizationLine }
+            ],
+            margin: [0, 0, 0, 1]
+          },
+          {
+            columns: [
+              { text: exp.role, italics: true },
+              { text: exp.period, alignment: 'right', italics: true }
+            ],
+            margin: [10, 0, 0, 2]
+          },
+          exp.supervisors ? { text: `Supervised by:\n${exp.supervisors.replace(/^Supervised by:\s*/i, '')}`, margin: [10, 0, 0, 2], fontSize: 9 } : null,
+          exp.description ? { text: exp.description, margin: [10, 0, 0, 2], fontSize: 9 } : null,
+          exp.paperLink ? { text: `Published Paper: ${exp.paperLink}`, margin: [10, 0, 0, 2], fontSize: 9, color: 'blue', link: exp.paperLink } : null,
+          ...(exp.highlights || []).map(h => {
+            const match = h.match(/^([^:]+:)(.*)$/);
+            if (match) {
+              return { text: [ { text: '◦ ' }, { text: match[1], bold: true, fontSize: 9 }, { text: match[2], fontSize: 9 } ], margin: [15, 0, 0, 1] };
+            }
+            return { text: [ { text: '◦ ' }, { text: h, fontSize: 9 } ], margin: [15, 0, 0, 1] };
+          })
+        ];
+      }).flat().filter(Boolean),
       
       ...(data.skillGroups && data.skillGroups.length > 0 ? createSectionHeader('Skills Summary') : []),
       data.skillGroups && data.skillGroups.length > 0 ? {

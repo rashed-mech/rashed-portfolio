@@ -83,9 +83,12 @@ export interface Experience {
   role: string;
   organization: string;
   department?: string;
+  employmentType?: string;
   location: string;
   period: string;
   description: string;
+  supervisors?: string;
+  paperLink?: string;
   galleryUrls?: string[];
   highlights: string[];
   current?: boolean;
