@@ -115,10 +115,14 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
     handleSyncCitations(initial);
   }, [publications, scholarUrl]);
 
+  const visiblePublications = useMemo(() => {
+    return publications.filter(p => p.isVisible !== false);
+  }, [publications]);
+
   // Dynamically extract categories from all loaded publications
   const categories = useMemo(() => {
     const set = new Set<string>();
-    publications.forEach(pub => {
+    visiblePublications.forEach(pub => {
       if (pub.category) set.add(pub.category);
       if (pub.statusNote) set.add(pub.statusNote);
     });
@@ -133,17 +137,17 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ public
     });
 
     return ['all', ...sorted];
-  }, [publications]);
+  }, [visiblePublications]);
 
   // Find the highest publication year across all papers to badge newest items
   const maxYear = useMemo(() => {
-    if (publications.length === 0) return new Date().getFullYear();
-    return Math.max(...publications.map(p => p.year || 0));
-  }, [publications]);
+    if (visiblePublications.length === 0) return new Date().getFullYear();
+    return Math.max(...visiblePublications.map(p => p.year || 0));
+  }, [visiblePublications]);
 
   const filteredAndSortedPubs = useMemo(() => {
     // 1. Filter
-    const matched = publications.filter(pub => {
+    const matched = visiblePublications.filter(pub => {
       const matchesCategory = 
         selectedCategory === 'all' || 
         pub.category === selectedCategory || 

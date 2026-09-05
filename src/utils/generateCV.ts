@@ -146,9 +146,9 @@ export const downloadCV = (data: PortfolioData) => {
         margin: [10, 0, 0, 6]
       } : null,
 
-      ...(data.publications && data.publications.length > 0 ? createSectionHeader('Journal Publications/Under Peer-Review') : []),
-      data.publications && data.publications.length > 0 ? {
-        ul: (data.publications || []).map(pub => {
+      ...(data.publications && data.publications.filter(p => p.isVisible !== false).length > 0 ? createSectionHeader('Journal Publications/Under Peer-Review') : []),
+      data.publications && data.publications.filter(p => p.isVisible !== false).length > 0 ? {
+        ul: (data.publications.filter(p => p.isVisible !== false) || []).map(pub => {
           const pubParts = [
             { text: `${pub.authors}, "${pub.title}," ${pub.venue}, ${pub.year}. ` }
           ];

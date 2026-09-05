@@ -55,6 +55,7 @@ export interface Publication {
   citations?: number;
   bibtex?: string;
   featured?: boolean;
+  isVisible?: boolean;
   tags: string[];
   statusNote?: string;
   purpose?: string;

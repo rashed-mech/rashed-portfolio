@@ -40,6 +40,7 @@ const EMPTY_PUB: Omit<Publication, 'id'> = {
   abstract: '',
   citations: 0,
   featured: false,
+  isVisible: true,
   tags: [],
   bibtex: ''
 };
@@ -169,6 +170,7 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ data, publicat
       abstract: pub.abstract || '',
       citations: pub.citations || 0,
       featured: !!pub.featured,
+      isVisible: pub.isVisible !== false,
       tags: pub.tags || [],
       bibtex: pub.bibtex || '',
       purpose: pub.purpose || '',
@@ -341,6 +343,11 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ data, publicat
                   {pub.featured && (
                     <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-semibold text-[11px] flex items-center gap-1">
                       <Award className="w-3 h-3 text-amber-400" /> Featured
+                    </span>
+                  )}
+                  {pub.isVisible === false && (
+                    <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-semibold text-[11px] flex items-center gap-1 border border-slate-700">
+                      Hidden
                     </span>
                   )}
                   {pub.citations !== undefined && pub.citations > 0 && (
@@ -575,17 +582,31 @@ export const PublicationsTab: React.FC<PublicationsTabProps> = ({ data, publicat
                 />
               </div>
 
-              <div className="flex items-center space-x-2 pt-2">
-                <input
-                  type="checkbox"
-                  id="featured-pub-checkbox"
-                  checked={formData.featured || false}
-                  onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                  className="w-4 h-4 rounded text-indigo-600 bg-slate-900 border-slate-700"
-                />
-                <label htmlFor="featured-pub-checkbox" className="text-xs font-semibold text-slate-300">
-                  Feature this publication on homepage
-                </label>
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="featured-pub-checkbox"
+                    checked={formData.featured || false}
+                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                    className="w-4 h-4 rounded text-indigo-600 bg-slate-900 border-slate-700"
+                  />
+                  <label htmlFor="featured-pub-checkbox" className="text-xs font-semibold text-slate-300">
+                    Feature this publication on homepage
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="visible-pub-checkbox"
+                    checked={formData.isVisible !== false}
+                    onChange={(e) => setFormData({ ...formData, isVisible: e.target.checked })}
+                    className="w-4 h-4 rounded text-indigo-600 bg-slate-900 border-slate-700"
+                  />
+                  <label htmlFor="visible-pub-checkbox" className="text-xs font-semibold text-slate-300">
+                    Show on live frontend portfolio
+                  </label>
+                </div>
               </div>
 
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-slate-700">
